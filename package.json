@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "cap": "^0.2.1",
-    "is-admin": "^3.0.0",
     "lz4-napi": "^2.2.0",
     "oodle": "github:Mathicha/oodle",
     "raw-socket-sniffer": "github:Herysia/raw-socket-sniffer",
@@ -26,11 +25,11 @@
     "tiny-typed-emitter": "^2.1.0"
   },
   "devDependencies": {
-    "@tsconfig/node18-strictest-esm": "^1.0.1",
-    "@types/node": "^18.11.11",
-    "prettier": "^2.8.1",
-    "tsup": "^6.5.0",
-    "typescript": "^4.9.4",
-    "ts-node": "^10.9.1"
+    "@tsconfig/node18": "^1.0.1",
+    "@types/node": "^18.15.11",
+    "prettier": "^2.8.7",
+    "ts-node": "^10.9.1",
+    "tsup": "^6.7.0",
+    "typescript": "^5.0.4"
   }
 }

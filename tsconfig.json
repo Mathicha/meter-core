@@ -1,5 +1,8 @@
 {
-  "extends": "@tsconfig/node18-strictest-esm/tsconfig.json",
+  "extends": [
+    "@tsconfig/node18/tsconfig"
+    // TODO: "@tsconfig/strictest/tsconfig", need internal fixes on structgen
+  ],
   "compilerOptions": {
     "noUnusedLocals": false,
     "noUnusedParameters": false,
