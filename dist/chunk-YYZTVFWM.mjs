@@ -1,6 +1,8 @@
 // src/packets/stream.ts
 var Read = class {
+  /** Buffer */
   b;
+  /** Offset */
   o;
   constructor(buf) {
     this.b = buf;
@@ -222,7 +224,9 @@ function isValidDate(year, month, day) {
   } else {
     year += 1900;
   }
-  return day > 0 && month <= 12 && (day <= daysInMonths[month] || day == 29 && month == 2 && IsLeapYear(year));
+  return day > 0 && /* 
+  month > 0 &&*/
+  month <= 12 && (day <= daysInMonths[month] || day == 29 && month == 2 && IsLeapYear(year));
 }
 function bigintToDate(value) {
   let LODWORD = Number(value & 0xffffffffn);
@@ -230,16 +234,14 @@ function bigintToDate(value) {
   let year = LODWORD & 4095;
   let month = (LODWORD & 65535) >> 12;
   let day = LODWORD >> 16 & 31;
-  if (isValidDate(year, month, day)) {
-  } else {
+  if (isValidDate(year, month, day)) ; else {
     year = month = day = 0;
   }
   let h = LODWORD >> 21 & 31;
   let m = LODWORD >> 26 & 63;
   let s = HIDWORD & 63;
   let ms = HIDWORD >> 6 & 16383;
-  if (h < 24 && m < 60 && s < 60 && ms < 1e3) {
-  } else {
+  if (h < 24 && m < 60 && s < 60 && ms < 1e3) ; else {
     h = 24;
     m = s = ms = 0;
   }
@@ -302,8 +304,8 @@ function read13(reader) {
 // src/packets/generated/structures/StatusEffectData.ts
 function read14(reader) {
   const data = {};
-  data.lostArkDateTime = read11(reader);
-  data.InstanceId = reader.u64();
+  data.OccurTime = read11(reader);
+  data.EndTick = reader.u64();
   data.Unk2 = reader.u8();
   data.SourceId = reader.u64();
   data.struct_418 = reader.bytes(reader.u16(), 8, 7);
@@ -311,7 +313,7 @@ function read14(reader) {
     data.Unk5_0 = reader.u64();
   if (reader.bool())
     data.Value = reader.bytes(16);
-  data.Unk7 = reader.u32();
+  data.TotalTime = reader.u32();
   data.StatusEffectId = reader.u32();
   data.EffectInstanceId = reader.u32();
   data.SkillLevel = reader.u8();
@@ -754,12 +756,12 @@ function read32(reader) {
   data.Unk5 = reader.u32();
   data.Unk6 = reader.u16();
   data.ProjectileId = reader.u64();
-  data.SkillId = reader.u32();
-  data.Unk9 = reader.u64();
+  data.SkillEffect = reader.u32();
+  data.TargetObjectId = reader.u64();
   if (reader.bool())
     data.Unk10_0 = reader.u32();
-  data.Unk11 = reader.u32();
-  data.SkillEffect = reader.u32();
+  data.SkillId = reader.u32();
+  data.ChainSkillEffect = reader.u32();
   if (reader.bool())
     data.Unk13_0 = reader.u64();
   data.Unk14 = reader.u16();
@@ -1194,8 +1196,22 @@ function read59(buf) {
 var name36 = "PKTStatusEffectRemoveNotify";
 var opcode36 = 17974;
 
-// src/packets/generated/definitions/PKTStatusEffectSyncDataNotify.ts
+// src/packets/generated/definitions/PKTStatusEffectDurationNotify.ts
 function read60(buf) {
+  const reader = new Read(buf);
+  const data = {};
+  reader.skip(2);
+  data.EffectInstanceId = reader.u32();
+  reader.skip(1);
+  data.TargetId = reader.u64();
+  data.ExpirationTick = reader.u64();
+  return data;
+}
+var name37 = "PKTStatusEffectDurationNotify";
+var opcode37 = 17951;
+
+// src/packets/generated/definitions/PKTStatusEffectSyncDataNotify.ts
+function read61(buf) {
   const reader = new Read(buf);
   const data = {};
   data.Value = reader.u32();
@@ -1206,11 +1222,11 @@ function read60(buf) {
   reader.skip(2);
   return data;
 }
-var name37 = "PKTStatusEffectSyncDataNotify";
-var opcode37 = 30620;
+var name38 = "PKTStatusEffectSyncDataNotify";
+var opcode38 = 30620;
 
 // src/packets/generated/definitions/PKTTriggerBossBattleStatus.ts
-function read61(buf) {
+function read62(buf) {
   const reader = new Read(buf);
   const data = {};
   data.Step = reader.u32();
@@ -1220,11 +1236,11 @@ function read61(buf) {
   reader.skip(1);
   return data;
 }
-var name38 = "PKTTriggerBossBattleStatus";
-var opcode38 = 23146;
+var name39 = "PKTTriggerBossBattleStatus";
+var opcode39 = 23146;
 
 // src/packets/generated/definitions/PKTTriggerFinishNotify.ts
-function read62(buf) {
+function read63(buf) {
   const reader = new Read(buf);
   const data = {};
   data.TriggerId = reader.u32();
@@ -1233,11 +1249,11 @@ function read62(buf) {
   data.PacketResultCode = reader.u32();
   return data;
 }
-var name39 = "PKTTriggerFinishNotify";
-var opcode39 = 17709;
+var name40 = "PKTTriggerFinishNotify";
+var opcode40 = 17709;
 
 // src/packets/generated/definitions/PKTTriggerStartNotify.ts
-function read63(buf) {
+function read64(buf) {
   const reader = new Read(buf);
   const data = {};
   data.TriggerId = reader.u32();
@@ -1246,11 +1262,11 @@ function read63(buf) {
   data.SourceId = reader.u64();
   return data;
 }
-var name40 = "PKTTriggerStartNotify";
-var opcode40 = 43437;
+var name41 = "PKTTriggerStartNotify";
+var opcode41 = 43437;
 
 // src/packets/generated/definitions/PKTTroopMemberUpdateMinNotify.ts
-function read64(buf) {
+function read65(buf) {
   const reader = new Read(buf);
   const data = {};
   data.CurHp = read13(reader);
@@ -1261,11 +1277,11 @@ function read64(buf) {
   data.Unk0_m = reader.u32();
   return data;
 }
-var name41 = "PKTTroopMemberUpdateMinNotify";
-var opcode41 = 23607;
+var name42 = "PKTTroopMemberUpdateMinNotify";
+var opcode42 = 23607;
 
 // src/packets/generated/definitions/PKTIdentityGaugeChangeNotify.ts
-function read65(buf) {
+function read66(buf) {
   const reader = new Read(buf);
   const data = {};
   reader.skip(1);
@@ -1275,134 +1291,49 @@ function read65(buf) {
   data.IdentityGauge3 = reader.i32();
   return data;
 }
-var name42 = "PKTIdentityGaugeChangeNotify";
-var opcode42 = 45217;
+var name43 = "PKTIdentityGaugeChangeNotify";
+var opcode43 = 45217;
 
-export {
-  read2 as read,
-  name,
-  opcode,
-  read4 as read2,
-  name2,
-  opcode2,
-  read5 as read3,
-  name3,
-  opcode3,
-  read6 as read4,
-  name4,
-  opcode4,
-  read7 as read5,
-  name5,
-  opcode5,
-  read8 as read6,
-  name6,
-  opcode6,
-  read9 as read7,
-  name7,
-  opcode7,
-  read10 as read8,
-  name8,
-  opcode8,
-  read12 as read9,
-  name9,
-  opcode9,
-  read16 as read10,
-  name10,
-  opcode10,
-  read18 as read11,
-  name11,
-  opcode11,
-  read19 as read12,
-  name12,
-  opcode12,
-  read25 as read13,
-  name13,
-  opcode13,
-  read26 as read14,
-  name14,
-  opcode14,
-  read29 as read15,
-  name15,
-  opcode15,
-  read33 as read16,
-  name16,
-  opcode16,
-  read34 as read17,
-  name17,
-  opcode17,
-  read36 as read18,
-  name18,
-  opcode18,
-  read37 as read19,
-  name19,
-  opcode19,
-  read38 as read20,
-  name20,
-  opcode20,
-  read39 as read21,
-  name21,
-  opcode21,
-  read40 as read22,
-  name22,
-  opcode22,
-  read41 as read23,
-  name23,
-  opcode23,
-  read42 as read24,
-  name24,
-  opcode24,
-  read43 as read25,
-  name25,
-  opcode25,
-  read44 as read26,
-  name26,
-  opcode26,
-  read45 as read27,
-  name27,
-  opcode27,
-  read46 as read28,
-  name28,
-  opcode28,
-  read48 as read29,
-  name29,
-  opcode29,
-  read52 as read30,
-  name30,
-  opcode30,
-  read53 as read31,
-  name31,
-  opcode31,
-  read54 as read32,
-  name32,
-  opcode32,
-  read56 as read33,
-  name33,
-  opcode33,
-  read57 as read34,
-  name34,
-  opcode34,
-  read58 as read35,
-  name35,
-  opcode35,
-  read59 as read36,
-  name36,
-  opcode36,
-  read60 as read37,
-  name37,
-  opcode37,
-  read61 as read38,
-  name38,
-  opcode38,
-  read62 as read39,
-  name39,
-  opcode39,
-  read63 as read40,
-  name40,
-  opcode40,
-  read64 as read41,
-  name41,
-  opcode41,
-  read65 as read42,
-  name42,
-  opcode42
-};
+// src/packets/generated/definitions/PKTZoneObjectUnpublishNotify.ts
+function read67(buf) {
+  const reader = new Read(buf);
+  const data = {};
+  reader.skip(2);
+  data.ObjectId = reader.u64();
+  return data;
+}
+var name44 = "PKTZoneObjectUnpublishNotify";
+var opcode44 = 44834;
+
+// src/packets/generated/structures/ZoneStatusEffectData.ts
+function read68(reader) {
+  const data = {};
+  data.Target = reader.u8();
+  data.StackCount = reader.u8();
+  data.InstanceId = reader.u64();
+  data.Id = reader.u32();
+  return data;
+}
+
+// src/packets/generated/definitions/PKTZoneStatusEffectAddNotify.ts
+function read69(buf) {
+  const reader = new Read(buf);
+  const data = {};
+  data.zoneStatusEffectDataList = reader.array(reader.u16(), () => read68(reader), 4);
+  return data;
+}
+var name45 = "PKTZoneStatusEffectAddNotify";
+var opcode45 = 14474;
+
+// src/packets/generated/definitions/PKTZoneStatusEffectRemoveNotify.ts
+function read70(buf) {
+  const reader = new Read(buf);
+  const data = {};
+  reader.skip(2);
+  data.StatusEffectId = reader.u32();
+  return data;
+}
+var name46 = "PKTZoneStatusEffectRemoveNotify";
+var opcode46 = 56137;
+
+export { name, name10, name11, name12, name13, name14, name15, name16, name17, name18, name19, name2, name20, name21, name22, name23, name24, name25, name26, name27, name28, name29, name3, name30, name31, name32, name33, name34, name35, name36, name37, name38, name39, name4, name40, name41, name42, name43, name44, name45, name46, name5, name6, name7, name8, name9, opcode, opcode10, opcode11, opcode12, opcode13, opcode14, opcode15, opcode16, opcode17, opcode18, opcode19, opcode2, opcode20, opcode21, opcode22, opcode23, opcode24, opcode25, opcode26, opcode27, opcode28, opcode29, opcode3, opcode30, opcode31, opcode32, opcode33, opcode34, opcode35, opcode36, opcode37, opcode38, opcode39, opcode4, opcode40, opcode41, opcode42, opcode43, opcode44, opcode45, opcode46, opcode5, opcode6, opcode7, opcode8, opcode9, read2 as read, read16 as read10, read18 as read11, read19 as read12, read25 as read13, read26 as read14, read29 as read15, read33 as read16, read34 as read17, read36 as read18, read37 as read19, read4 as read2, read38 as read20, read39 as read21, read40 as read22, read41 as read23, read42 as read24, read43 as read25, read44 as read26, read45 as read27, read46 as read28, read48 as read29, read5 as read3, read52 as read30, read53 as read31, read54 as read32, read56 as read33, read57 as read34, read58 as read35, read59 as read36, read60 as read37, read61 as read38, read62 as read39, read6 as read4, read63 as read40, read64 as read41, read65 as read42, read66 as read43, read67 as read44, read69 as read45, read70 as read46, read7 as read5, read8 as read6, read9 as read7, read10 as read8, read12 as read9 };

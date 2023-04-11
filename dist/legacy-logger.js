@@ -1,36 +1,14 @@
-"use strict";
+'use strict';
+
+var crypto = require('crypto');
+var tinyTypedEmitter = require('tiny-typed-emitter');
+
 var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var __publicField = (obj, key, value) => {
   __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
   return value;
 };
-
-// src/legacy-logger.ts
-var legacy_logger_exports = {};
-__export(legacy_logger_exports, {
-  LegacyLogger: () => LegacyLogger,
-  LineId: () => LineId
-});
-module.exports = __toCommonJS(legacy_logger_exports);
-var import_crypto = require("crypto");
-var import_tiny_typed_emitter = require("tiny-typed-emitter");
 
 // src/pcidmapper.ts
 var _PCIdMapper = class {
@@ -217,8 +195,6 @@ var _StatusTracker = class {
         return this.LocalStatusEffectRegistry;
       case 0 /* Party */:
         return this.PartyStatusEffectRegistry;
-      default:
-        break;
     }
     return this.LocalStatusEffectRegistry;
   }
@@ -313,7 +289,7 @@ var LineId = /* @__PURE__ */ ((LineId2) => {
   LineId2[LineId2["Error"] = 254] = "Error";
   return LineId2;
 })(LineId || {});
-var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
+var LegacyLogger = class extends tinyTypedEmitter.TypedEmitter {
   #data;
   emitText;
   emitLines;
@@ -335,7 +311,7 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
     this.#wasKill = false;
     this.#localPlayer = {
       entityId: 0n,
-      entityType: EntityType.Player,
+      entityType: 0 /* Player */,
       name: "You",
       class: 0,
       gearLevel: 0,
@@ -389,7 +365,7 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
       this.#currentEncounter = new Encounter();
       const player = {
         entityId: parsed.PlayerId,
-        entityType: EntityType.Player,
+        entityType: 0 /* Player */,
         name: this.#localPlayer.name,
         class: this.#localPlayer.class,
         gearLevel: this.#localPlayer.gearLevel,
@@ -412,7 +388,7 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
       this.#currentEncounter = new Encounter();
       const player = {
         entityId: parsed.PlayerId,
-        entityType: EntityType.Player,
+        entityType: 0 /* Player */,
         name: parsed.Name,
         class: parsed.ClassId,
         gearLevel: this.#u32tof32(parsed.GearLevel),
@@ -450,7 +426,7 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
         return;
       const npc = {
         entityId: parsed.NpcStruct.ObjectId,
-        entityType: EntityType.Npc,
+        entityType: 1 /* Npc */,
         name: this.#data.getNpcName(parsed.NpcStruct.TypeId),
         typeId: parsed.NpcStruct.TypeId
       };
@@ -472,13 +448,13 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
         return;
       const summon = {
         entityId: parsed.NpcData.ObjectId,
-        entityType: EntityType.Summon,
+        entityType: 2 /* Summon */,
         name: parsed.NpcData.ObjectId.toString(16),
         ownerId: parsed.OwnerId
       };
       if (this.#needEmit) {
         const owner = this.#currentEncounter.entities.get(parsed.OwnerId);
-        if (owner && owner.entityType === EntityType.Npc) {
+        if (owner && owner.entityType === 1 /* Npc */) {
           summon.name = this.#data.getNpcName(parsed.NpcData.TypeId);
           const statsMap = this.#getStatPairMap(parsed.NpcData.statPair);
           this.#buildLine(
@@ -498,7 +474,7 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
         return;
       const player = {
         entityId: parsed.PCStruct.PlayerId,
-        entityType: EntityType.Player,
+        entityType: 0 /* Player */,
         name: parsed.PCStruct.Name,
         class: parsed.PCStruct.ClassId,
         gearLevel: this.#u32tof32(parsed.PCStruct.GearLevel),
@@ -538,7 +514,7 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
         return;
       const projectile = {
         entityId: parsed.projectileInfo.ProjectileId,
-        entityType: EntityType.Projectile,
+        entityType: 3 /* Projectile */,
         name: parsed.projectileInfo.ProjectileId.toString(16),
         ownerId: parsed.projectileInfo.OwnerId,
         skillEffectId: parsed.projectileInfo.SkillEffect,
@@ -562,7 +538,7 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
         const entityId = PCIdMapper.getInstance().getEntityId(pm.CharacterId);
         if (entityId) {
           const ent = this.#currentEncounter.entities.get(entityId);
-          if (ent && ent.entityType === EntityType.Player && ent.name !== pm.Name) {
+          if (ent && ent.entityType === 0 /* Player */ && ent.name !== pm.Name) {
             const p = ent;
             p.gearLevel = this.#u32tof32(pm.GearLevel);
             p.name = pm.Name;
@@ -650,7 +626,7 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
           let skillEffect;
           if (this.#data.isBattleItem(skillEffectId, "attack")) {
             const entity = this.#currentEncounter.entities.get(parsedDmg.SourceId);
-            if (entity && entity.entityType === EntityType.Projectile) {
+            if (entity && entity.entityType === 3 /* Projectile */) {
               const proj = entity;
               skillEffectId = proj.skillEffectId;
               skillEffect = this.#data.getBattleItemName(skillEffectId);
@@ -683,7 +659,7 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
           return;
         let sourceEntity = this.#getSourceEntity(parsedDmg.SourceId);
         let skillName = this.#data.getSkillName(parsedDmg.SkillId);
-        const skillEffect = this.#data.getSkillEffectComment(parsedDmg.SkillEffectId);
+        this.#data.getSkillEffectComment(parsedDmg.SkillEffectId);
         sourceEntity = this.#guessIsPlayer(sourceEntity, parsedDmg.SkillId);
         parsedDmg.SkillDamageEvents.forEach((event) => {
           if ((event.Modifier & 15) === 11 /* damage_share */ && parsedDmg.SkillId === 0 && parsedDmg.SkillEffectId === 0)
@@ -696,7 +672,7 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
           let skillEffect2;
           if (this.#data.isBattleItem(skillEffectId, "attack")) {
             const entity = this.#currentEncounter.entities.get(parsedDmg.SourceId);
-            if (entity && entity.entityType === EntityType.Projectile) {
+            if (entity && entity.entityType === 3 /* Projectile */) {
               const proj = entity;
               skillEffectId = proj.skillEffectId;
               skillEffect2 = this.#data.getBattleItemName(skillEffectId);
@@ -754,8 +730,6 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
         );
       }
     }).on("PKTStatChangeOriginNotify", (pkt) => {
-      if (this.#needEmit) {
-      }
     }).on("PKTStatusEffectAddNotify", (pkt) => {
       const parsed = pkt.parsed;
       if (!parsed)
@@ -814,8 +788,8 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
   }
   #buildLine(id, ...args) {
     if (this.emitText) {
-      let line = `${id}|${new Date().toISOString()}|${args.map((v) => typeof v === "bigint" ? v.toString(16) : v).join("|")}`;
-      line = [line, (0, import_crypto.createHash)("md5").update(line).digest("hex")].join("|");
+      let line = `${id}|${( new Date()).toISOString()}|${args.map((v) => typeof v === "bigint" ? v.toString(16) : v).join("|")}`;
+      line = [line, crypto.createHash("md5").update(line).digest("hex")].join("|");
       this.emit("line", line);
     }
     if (this.emitLines)
@@ -826,9 +800,9 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
   }
   #getSourceEntity(id) {
     let entity = this.#currentEncounter.entities.get(id);
-    if (entity?.entityType === EntityType.Projectile) {
+    if (entity?.entityType === 3 /* Projectile */) {
       id = entity.ownerId;
-    } else if (entity?.entityType === EntityType.Summon) {
+    } else if (entity?.entityType === 2 /* Summon */) {
       id = entity.ownerId;
     }
     entity = this.#currentEncounter.entities.get(id);
@@ -836,7 +810,7 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
       return entity;
     const newEntity = {
       entityId: id,
-      entityType: EntityType.Npc,
+      entityType: 1 /* Npc */,
       name: id.toString(16)
     };
     this.#currentEncounter.entities.set(id, newEntity);
@@ -846,13 +820,13 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
     const classId = this.#data.getSkillClassId(skillid);
     if (classId !== 0) {
       let newEntity;
-      if (entity.entityType === EntityType.Player) {
+      if (entity.entityType === 0 /* Player */) {
         const player = entity;
         if (player.class == classId)
           return player;
         newEntity = {
           entityId: player.entityId,
-          entityType: EntityType.Player,
+          entityType: 0 /* Player */,
           name: player.name,
           class: classId,
           gearLevel: player.gearLevel,
@@ -861,7 +835,7 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
       } else {
         newEntity = {
           entityId: entity.entityId,
-          entityType: EntityType.Player,
+          entityType: 0 /* Player */,
           name: entity.name,
           class: classId,
           gearLevel: 0,
@@ -901,7 +875,7 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
     return Math.round(buf.readFloatLE() * 100) / 100;
   }
   #shouldUsePartyStatusEffectForEntity(entity) {
-    if (entity.entityType !== EntityType.Player)
+    if (entity.entityType !== 0 /* Player */)
       return false;
     const player = entity;
     return this.#shouldUsePartyStatusEffect(player.characterId);
@@ -923,7 +897,7 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
     return false;
   }
   #isEntityInParty(entity) {
-    if (entity.entityType !== EntityType.Player)
+    if (entity.entityType !== 0 /* Player */)
       return false;
     const player = entity;
     return PartyTracker.getInstance().isCharacterInParty(player.characterId);
@@ -960,7 +934,7 @@ var LegacyLogger = class extends import_tiny_typed_emitter.TypedEmitter {
     return {
       instanceId: se.EffectInstanceId,
       sourceId,
-      started: new Date(),
+      started: /* @__PURE__ */ new Date(),
       statusEffectId: se.StatusEffectId,
       targetId,
       type: targetType,
@@ -1006,15 +980,6 @@ var Encounter = class {
     this.entities = /* @__PURE__ */ new Map();
   }
 };
-var EntityType = /* @__PURE__ */ ((EntityType2) => {
-  EntityType2[EntityType2["Player"] = 0] = "Player";
-  EntityType2[EntityType2["Npc"] = 1] = "Npc";
-  EntityType2[EntityType2["Summon"] = 2] = "Summon";
-  EntityType2[EntityType2["Projectile"] = 3] = "Projectile";
-  return EntityType2;
-})(EntityType || {});
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  LegacyLogger,
-  LineId
-});
+
+exports.LegacyLogger = LegacyLogger;
+exports.LineId = LineId;

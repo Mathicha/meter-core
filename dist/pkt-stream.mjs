@@ -1,20 +1,15 @@
-import {
-  mapping
-} from "./chunk-JF6QX5IO.mjs";
-import "./chunk-3I66HENF.mjs";
-import "./chunk-M2GHQKHQ.mjs";
-import "./chunk-O6OTV64A.mjs";
-import "./chunk-KC6KPT6P.mjs";
-import "./chunk-NHABU752.mjs";
+import { mapping } from './chunk-RZY44CES.mjs';
+import { TypedEmitter } from 'tiny-typed-emitter';
 
-// src/pkt-stream.ts
-import { TypedEmitter } from "tiny-typed-emitter";
 var PKTStream = class extends TypedEmitter {
   #decompressor;
   constructor(decompressor) {
     super();
     this.#decompressor = decompressor;
   }
+  /**
+   * @returns `false` if packet is malformed
+   */
   read(buf) {
     try {
       if (buf.length < 6)
@@ -56,6 +51,7 @@ var PKT = class {
     this.#decompressor = decompressor;
     this.#read = read;
   }
+  // in case we listen for it more than once
   #cached;
   get parsed() {
     if (!this.#cached) {
@@ -69,7 +65,5 @@ var PKT = class {
     return this.#cached;
   }
 };
-export {
-  PKT,
-  PKTStream
-};
+
+export { PKT, PKTStream };

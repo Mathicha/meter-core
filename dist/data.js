@@ -1,30 +1,9 @@
-"use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+'use strict';
+
+var fs = require('fs');
+var path = require('path');
 
 // src/data.ts
-var data_exports = {};
-__export(data_exports, {
-  MeterData: () => MeterData
-});
-module.exports = __toCommonJS(data_exports);
-var import_fs = require("fs");
-var import_path = require("path");
 var MeterData = class {
   dbPath = "";
   modulePath;
@@ -119,16 +98,14 @@ var MeterData = class {
   }
   loadDbs(basePath) {
     this.dbPath = basePath;
-    this.processEnumData(JSON.parse((0, import_fs.readFileSync)((0, import_path.join)(basePath, "Enums.json"), "utf-8")));
-    this.processNpcData(JSON.parse((0, import_fs.readFileSync)((0, import_path.join)(basePath, "Npc.json"), "utf-8")));
-    this.processPCData(JSON.parse((0, import_fs.readFileSync)((0, import_path.join)(basePath, "PCData.json"), "utf-8")));
-    this.processSkillData(JSON.parse((0, import_fs.readFileSync)((0, import_path.join)(basePath, "Skill.json"), "utf-8")));
-    this.processSkillBuffData(JSON.parse((0, import_fs.readFileSync)((0, import_path.join)(basePath, "SkillBuff.json"), "utf-8")));
-    this.processSkillBuffEffectData(JSON.parse((0, import_fs.readFileSync)((0, import_path.join)(basePath, "SkillEffect.json"), "utf-8")));
-    this.processCombatEffectData(JSON.parse((0, import_fs.readFileSync)((0, import_path.join)(basePath, "CombatEffect.json"), "utf-8")));
+    this.processEnumData(JSON.parse(fs.readFileSync(path.join(basePath, "Enums.json"), "utf-8")));
+    this.processNpcData(JSON.parse(fs.readFileSync(path.join(basePath, "Npc.json"), "utf-8")));
+    this.processPCData(JSON.parse(fs.readFileSync(path.join(basePath, "PCData.json"), "utf-8")));
+    this.processSkillData(JSON.parse(fs.readFileSync(path.join(basePath, "Skill.json"), "utf-8")));
+    this.processSkillBuffData(JSON.parse(fs.readFileSync(path.join(basePath, "SkillBuff.json"), "utf-8")));
+    this.processSkillBuffEffectData(JSON.parse(fs.readFileSync(path.join(basePath, "SkillEffect.json"), "utf-8")));
+    this.processCombatEffectData(JSON.parse(fs.readFileSync(path.join(basePath, "CombatEffect.json"), "utf-8")));
   }
 };
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  MeterData
-});
+
+exports.MeterData = MeterData;

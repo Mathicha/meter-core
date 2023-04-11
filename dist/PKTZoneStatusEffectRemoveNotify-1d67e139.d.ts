@@ -7,9 +7,9 @@ type AbilityData = {
 type PKTAbilityChangeNotify = {
     abilityDataList: AbilityData[];
 };
-declare function read$F(buf: Buffer): PKTAbilityChangeNotify;
-declare const name$F = "PKTAbilityChangeNotify";
-declare const opcode$F = 2055;
+declare function read$J(buf: Buffer): PKTAbilityChangeNotify;
+declare const name$J = "PKTAbilityChangeNotify";
+declare const opcode$J = 2055;
 
 type ActiveAbility = {
     Level: number;
@@ -20,9 +20,9 @@ type PKTActiveAbilityNotify = {
     ObjectId: bigint;
     activeAbilityList: ActiveAbility[];
 };
-declare function read$E(buf: Buffer): PKTActiveAbilityNotify;
-declare const name$E = "PKTActiveAbilityNotify";
-declare const opcode$E = 8789;
+declare function read$I(buf: Buffer): PKTActiveAbilityNotify;
+declare const name$I = "PKTActiveAbilityNotify";
+declare const opcode$I = 8789;
 
 type PKTAddonSkillFeatureChangeNotify = {
     addonSkillFeatureList: {
@@ -32,17 +32,17 @@ type PKTAddonSkillFeatureChangeNotify = {
     ObjectId: bigint;
     struct_120: Buffer;
 };
-declare function read$D(buf: Buffer): PKTAddonSkillFeatureChangeNotify;
-declare const name$D = "PKTAddonSkillFeatureChangeNotify";
-declare const opcode$D = 27714;
+declare function read$H(buf: Buffer): PKTAddonSkillFeatureChangeNotify;
+declare const name$H = "PKTAddonSkillFeatureChangeNotify";
+declare const opcode$H = 27714;
 
 type PKTAuthTokenResult = {
     Unk1_m: Buffer;
     PacketResultCode: number;
 };
-declare function read$C(buf: Buffer): PKTAuthTokenResult;
-declare const name$C = "PKTAuthTokenResult";
-declare const opcode$C = 51585;
+declare function read$G(buf: Buffer): PKTAuthTokenResult;
+declare const name$G = "PKTAuthTokenResult";
+declare const opcode$G = 51585;
 
 type PKTBlockSkillStateNotify = {
     ParalyzationPoint: number;
@@ -50,18 +50,18 @@ type PKTBlockSkillStateNotify = {
     Type: number;
     ObjectId: bigint;
 };
-declare function read$B(buf: Buffer): PKTBlockSkillStateNotify;
-declare const name$B = "PKTBlockSkillStateNotify";
-declare const opcode$B = 14430;
+declare function read$F(buf: Buffer): PKTBlockSkillStateNotify;
+declare const name$F = "PKTBlockSkillStateNotify";
+declare const opcode$F = 14430;
 
 type PKTCounterAttackNotify = {
     TargetId: bigint;
     SourceId: bigint;
     Type: number;
 };
-declare function read$A(buf: Buffer): PKTCounterAttackNotify;
-declare const name$A = "PKTCounterAttackNotify";
-declare const opcode$A = 25211;
+declare function read$E(buf: Buffer): PKTCounterAttackNotify;
+declare const name$E = "PKTCounterAttackNotify";
+declare const opcode$E = 25211;
 
 type PKTDeathNotify = {
     Unk0: bigint;
@@ -75,17 +75,17 @@ type PKTDeathNotify = {
     Unk8: number;
     Unk9: number;
 };
-declare function read$z(buf: Buffer): PKTDeathNotify;
-declare const name$z = "PKTDeathNotify";
-declare const opcode$z = 1006;
+declare function read$D(buf: Buffer): PKTDeathNotify;
+declare const name$D = "PKTDeathNotify";
+declare const opcode$D = 1006;
 
 type PKTInitAbility = {
     abilityDataList: AbilityData[];
     struct_125: Buffer;
 };
-declare function read$y(buf: Buffer): PKTInitAbility;
-declare const name$y = "PKTInitAbility";
-declare const opcode$y = 59534;
+declare function read$C(buf: Buffer): PKTInitAbility;
+declare const name$C = "PKTInitAbility";
+declare const opcode$C = 59534;
 
 type LostArkDateTime = Date;
 
@@ -103,19 +103,19 @@ type PKTInitEnv = {
     Unk6: number;
     PlayerId: bigint;
 };
-declare function read$x(buf: Buffer): PKTInitEnv;
-declare const name$x = "PKTInitEnv";
-declare const opcode$x = 5818;
+declare function read$B(buf: Buffer): PKTInitEnv;
+declare const name$B = "PKTInitEnv";
+declare const opcode$B = 5818;
 
 type StatusEffectData = {
-    lostArkDateTime: LostArkDateTime;
-    InstanceId: bigint;
+    OccurTime: LostArkDateTime;
+    EndTick: bigint;
     Unk2: number;
     SourceId: bigint;
     struct_418: Buffer;
     Unk5_0?: bigint;
     Value?: Buffer;
-    Unk7: number;
+    TotalTime: number;
     StatusEffectId: number;
     EffectInstanceId: number;
     SkillLevel: number;
@@ -193,9 +193,9 @@ type PKTInitPC = {
     Unk55: number;
     struct_318: Buffer;
 };
-declare function read$w(buf: Buffer): PKTInitPC;
-declare const name$w = "PKTInitPC";
-declare const opcode$w = 49736;
+declare function read$A(buf: Buffer): PKTInitPC;
+declare const name$A = "PKTInitPC";
+declare const opcode$A = 49736;
 
 type Struct_690 = {
     Unk0: number;
@@ -229,9 +229,9 @@ type PKTInitLocal = {
     struct_120: Buffer;
     Unk15: number;
 };
-declare function read$v(buf: Buffer): PKTInitLocal;
-declare const name$v = "PKTInitLocal";
-declare const opcode$v = 7987;
+declare function read$z(buf: Buffer): PKTInitLocal;
+declare const name$z = "PKTInitLocal";
+declare const opcode$z = 7987;
 
 type PKTMigrationExecute = {
     Account_CharacterId1: bigint;
@@ -239,9 +239,9 @@ type PKTMigrationExecute = {
     ServerAddr: string;
     AuthKey: number;
 };
-declare function read$u(buf: Buffer): PKTMigrationExecute;
-declare const name$u = "PKTMigrationExecute";
-declare const opcode$u = 43659;
+declare function read$y(buf: Buffer): PKTMigrationExecute;
+declare const name$y = "PKTMigrationExecute";
+declare const opcode$y = 43659;
 
 type Struct_635 = {
     Unk0: number;
@@ -318,18 +318,18 @@ type PKTNewNpc = {
     NpcStruct: NpcData;
     Unk4_0?: bigint;
 };
-declare function read$t(buf: Buffer): PKTNewNpc;
-declare const name$t = "PKTNewNpc";
-declare const opcode$t = 29519;
+declare function read$x(buf: Buffer): PKTNewNpc;
+declare const name$x = "PKTNewNpc";
+declare const opcode$x = 29519;
 
 type PKTNewNpcSummon = {
     NpcData: NpcData;
     PublishReason: number;
     OwnerId: bigint;
 };
-declare function read$s(buf: Buffer): PKTNewNpcSummon;
-declare const name$s = "PKTNewNpcSummon";
-declare const opcode$s = 34300;
+declare function read$w(buf: Buffer): PKTNewNpcSummon;
+declare const name$w = "PKTNewNpcSummon";
+declare const opcode$w = 34300;
 
 type TrackMoveInfo = {
     Unk0: number;
@@ -401,9 +401,9 @@ type PKTNewPC = {
     Unk4_0_m?: Buffer;
     Unk0_m: number;
 };
-declare function read$r(buf: Buffer): PKTNewPC;
-declare const name$r = "PKTNewPC";
-declare const opcode$r = 34863;
+declare function read$v(buf: Buffer): PKTNewPC;
+declare const name$v = "PKTNewPC";
+declare const opcode$v = 34863;
 
 type TripodLevel = {
     first: number;
@@ -426,11 +426,11 @@ type ProjectileInfo = {
     Unk5: number;
     Unk6: number;
     ProjectileId: bigint;
-    SkillId: number;
-    Unk9: bigint;
-    Unk10_0?: number;
-    Unk11: number;
     SkillEffect: number;
+    TargetObjectId: bigint;
+    Unk10_0?: number;
+    SkillId: number;
+    ChainSkillEffect: number;
     Unk13_0?: bigint;
     Unk14: number;
     tripodLevel: TripodLevel;
@@ -444,9 +444,9 @@ type ProjectileInfo = {
 type PKTNewProjectile = {
     projectileInfo: ProjectileInfo;
 };
-declare function read$q(buf: Buffer): PKTNewProjectile;
-declare const name$q = "PKTNewProjectile";
-declare const opcode$q = 55720;
+declare function read$u(buf: Buffer): PKTNewProjectile;
+declare const name$u = "PKTNewProjectile";
+declare const opcode$u = 55720;
 
 type PKTParalyzationStateNotify = {
     NoHitCheckTime: number;
@@ -457,9 +457,9 @@ type PKTParalyzationStateNotify = {
     Enable: boolean;
     ObjectId: bigint;
 };
-declare function read$p(buf: Buffer): PKTParalyzationStateNotify;
-declare const name$p = "PKTParalyzationStateNotify";
-declare const opcode$p = 24051;
+declare function read$t(buf: Buffer): PKTParalyzationStateNotify;
+declare const name$t = "PKTParalyzationStateNotify";
+declare const opcode$t = 24051;
 
 type PartyMemberData = {
     Auths: number;
@@ -492,35 +492,35 @@ type PKTPartyInfo = {
     PartyInstanceId: number;
     MemberDatas: PartyMemberData[];
 };
-declare function read$o(buf: Buffer): PKTPartyInfo;
-declare const name$o = "PKTPartyInfo";
-declare const opcode$o = 10839;
+declare function read$s(buf: Buffer): PKTPartyInfo;
+declare const name$s = "PKTPartyInfo";
+declare const opcode$s = 10839;
 
 type PKTPartyLeaveResult = {
     PartyInstanceId: number;
     PartyLeaveType: number;
     Name: string;
 };
-declare function read$n(buf: Buffer): PKTPartyLeaveResult;
-declare const name$n = "PKTPartyLeaveResult";
-declare const opcode$n = 41810;
+declare function read$r(buf: Buffer): PKTPartyLeaveResult;
+declare const name$r = "PKTPartyLeaveResult";
+declare const opcode$r = 41810;
 
 type PKTPartyPassiveStatusEffectAddNotify = {
     ObjectId: bigint;
     Unk0_m: number;
     passiveStatusEffectList: number[];
 };
-declare function read$m(buf: Buffer): PKTPartyPassiveStatusEffectAddNotify;
-declare const name$m = "PKTPartyPassiveStatusEffectAddNotify";
-declare const opcode$m = 7578;
+declare function read$q(buf: Buffer): PKTPartyPassiveStatusEffectAddNotify;
+declare const name$q = "PKTPartyPassiveStatusEffectAddNotify";
+declare const opcode$q = 7578;
 
 type PKTPartyPassiveStatusEffectRemoveNotify = {
     ObjectId: bigint;
     passiveStatusEffectList: number[];
 };
-declare function read$l(buf: Buffer): PKTPartyPassiveStatusEffectRemoveNotify;
-declare const name$l = "PKTPartyPassiveStatusEffectRemoveNotify";
-declare const opcode$l = 45127;
+declare function read$p(buf: Buffer): PKTPartyPassiveStatusEffectRemoveNotify;
+declare const name$p = "PKTPartyPassiveStatusEffectRemoveNotify";
+declare const opcode$p = 45127;
 
 type PKTPartyStatusEffectAddNotify = {
     Unk0: bigint;
@@ -529,9 +529,9 @@ type PKTPartyStatusEffectAddNotify = {
     PlayerIdOnRefresh: bigint;
     Unk4: number;
 };
-declare function read$k(buf: Buffer): PKTPartyStatusEffectAddNotify;
-declare const name$k = "PKTPartyStatusEffectAddNotify";
-declare const opcode$k = 17518;
+declare function read$o(buf: Buffer): PKTPartyStatusEffectAddNotify;
+declare const name$o = "PKTPartyStatusEffectAddNotify";
+declare const opcode$o = 17518;
 
 type PKTPartyStatusEffectRemoveNotify = {
     statusEffectIds: number[];
@@ -539,39 +539,39 @@ type PKTPartyStatusEffectRemoveNotify = {
     Unk2: number;
     CharacterId: bigint;
 };
-declare function read$j(buf: Buffer): PKTPartyStatusEffectRemoveNotify;
-declare const name$j = "PKTPartyStatusEffectRemoveNotify";
-declare const opcode$j = 35134;
+declare function read$n(buf: Buffer): PKTPartyStatusEffectRemoveNotify;
+declare const name$n = "PKTPartyStatusEffectRemoveNotify";
+declare const opcode$n = 35134;
 
 type PKTPartyStatusEffectResultNotify = {
     CharacterId: bigint;
     PartyInstanceId: number;
     RaidInstanceId: number;
 };
-declare function read$i(buf: Buffer): PKTPartyStatusEffectResultNotify;
-declare const name$i = "PKTPartyStatusEffectResultNotify";
-declare const opcode$i = 7534;
+declare function read$m(buf: Buffer): PKTPartyStatusEffectResultNotify;
+declare const name$m = "PKTPartyStatusEffectResultNotify";
+declare const opcode$m = 7534;
 
 type PKTPassiveStatusEffectAddNotify = {
     passiveStatusEffectList: number[];
 };
-declare function read$h(buf: Buffer): PKTPassiveStatusEffectAddNotify;
-declare const name$h = "PKTPassiveStatusEffectAddNotify";
-declare const opcode$h = 12065;
+declare function read$l(buf: Buffer): PKTPassiveStatusEffectAddNotify;
+declare const name$l = "PKTPassiveStatusEffectAddNotify";
+declare const opcode$l = 12065;
 
 type PKTPassiveStatusEffectRemoveNotify = {
     passiveStatusEffectList: number[];
 };
-declare function read$g(buf: Buffer): PKTPassiveStatusEffectRemoveNotify;
-declare const name$g = "PKTPassiveStatusEffectRemoveNotify";
-declare const opcode$g = 28134;
+declare function read$k(buf: Buffer): PKTPassiveStatusEffectRemoveNotify;
+declare const name$k = "PKTPassiveStatusEffectRemoveNotify";
+declare const opcode$k = 28134;
 
 type PKTRaidBossKillNotify = {
     Unk0: Buffer;
 };
-declare function read$f(buf: Buffer): PKTRaidBossKillNotify;
-declare const name$f = "PKTRaidBossKillNotify";
-declare const opcode$f = 845;
+declare function read$j(buf: Buffer): PKTRaidBossKillNotify;
+declare const name$j = "PKTRaidBossKillNotify";
+declare const opcode$j = 845;
 
 type PKTRaidResult = {
     Unk0: number;
@@ -588,9 +588,9 @@ type PKTRaidResult = {
     }[];
     Unk7: number;
 };
-declare function read$e(buf: Buffer): PKTRaidResult;
-declare const name$e = "PKTRaidResult";
-declare const opcode$e = 34049;
+declare function read$i(buf: Buffer): PKTRaidResult;
+declare const name$i = "PKTRaidResult";
+declare const opcode$i = 34049;
 
 type UnpublishObject = {
     ObjectId: bigint;
@@ -600,9 +600,9 @@ type UnpublishObject = {
 type PKTRemoveObject = {
     unpublishedObjects: UnpublishObject[];
 };
-declare function read$d(buf: Buffer): PKTRemoveObject;
-declare const name$d = "PKTRemoveObject";
-declare const opcode$d = 57048;
+declare function read$h(buf: Buffer): PKTRemoveObject;
+declare const name$h = "PKTRemoveObject";
+declare const opcode$h = 57048;
 
 type SkillMoveOptionData = {
     MoveTime?: number;
@@ -645,9 +645,9 @@ type PKTSkillDamageAbnormalMoveNotify = {
     SourceId: bigint;
     SkillDamageAbnormalMoveEvents: SkillDamageAbnormalMoveEvent[];
 };
-declare function read$c(buf: Buffer): PKTSkillDamageAbnormalMoveNotify;
-declare const name$c = "PKTSkillDamageAbnormalMoveNotify";
-declare const opcode$c = 15322;
+declare function read$g(buf: Buffer): PKTSkillDamageAbnormalMoveNotify;
+declare const name$g = "PKTSkillDamageAbnormalMoveNotify";
+declare const opcode$g = 15322;
 
 type PKTSkillDamageNotify = {
     SourceId: bigint;
@@ -656,18 +656,18 @@ type PKTSkillDamageNotify = {
     SkillDamageEvents: SkillDamageEvent[];
     SkillEffectId: number;
 };
-declare function read$b(buf: Buffer): PKTSkillDamageNotify;
-declare const name$b = "PKTSkillDamageNotify";
-declare const opcode$b = 30373;
+declare function read$f(buf: Buffer): PKTSkillDamageNotify;
+declare const name$f = "PKTSkillDamageNotify";
+declare const opcode$f = 30373;
 
 type PKTSkillStageNotify = {
     Stage: number;
     SourceId: bigint;
     SkillId: number;
 };
-declare function read$a(buf: Buffer): PKTSkillStageNotify;
-declare const name$a = "PKTSkillStageNotify";
-declare const opcode$a = 23925;
+declare function read$e(buf: Buffer): PKTSkillStageNotify;
+declare const name$e = "PKTSkillStageNotify";
+declare const opcode$e = 23925;
 
 type SkillOptionData = {
     LayerIndex?: number;
@@ -693,9 +693,9 @@ type PKTSkillStartNotify = {
     SkillOptionData: SkillOptionData;
     SkillId: number;
 };
-declare function read$9(buf: Buffer): PKTSkillStartNotify;
-declare const name$9 = "PKTSkillStartNotify";
-declare const opcode$9 = 12114;
+declare function read$d(buf: Buffer): PKTSkillStartNotify;
+declare const name$d = "PKTSkillStartNotify";
+declare const opcode$d = 12114;
 
 type PKTStatChangeOriginNotify = {
     Unk0: {
@@ -710,9 +710,9 @@ type PKTStatChangeOriginNotify = {
     ObjectId: bigint;
     Unk4_0?: number;
 };
-declare function read$8(buf: Buffer): PKTStatChangeOriginNotify;
-declare const name$8 = "PKTStatChangeOriginNotify";
-declare const opcode$8 = 3778;
+declare function read$c(buf: Buffer): PKTStatChangeOriginNotify;
+declare const name$c = "PKTStatChangeOriginNotify";
+declare const opcode$c = 3778;
 
 type PKTStatusEffectAddNotify = {
     Unk0_0?: bigint;
@@ -721,18 +721,27 @@ type PKTStatusEffectAddNotify = {
     Unk3: bigint;
     statusEffectData: StatusEffectData;
 };
-declare function read$7(buf: Buffer): PKTStatusEffectAddNotify;
-declare const name$7 = "PKTStatusEffectAddNotify";
-declare const opcode$7 = 5430;
+declare function read$b(buf: Buffer): PKTStatusEffectAddNotify;
+declare const name$b = "PKTStatusEffectAddNotify";
+declare const opcode$b = 5430;
 
 type PKTStatusEffectRemoveNotify = {
     Reason: number;
     statusEffectIds: number[];
     ObjectId: bigint;
 };
-declare function read$6(buf: Buffer): PKTStatusEffectRemoveNotify;
-declare const name$6 = "PKTStatusEffectRemoveNotify";
-declare const opcode$6 = 17974;
+declare function read$a(buf: Buffer): PKTStatusEffectRemoveNotify;
+declare const name$a = "PKTStatusEffectRemoveNotify";
+declare const opcode$a = 17974;
+
+type PKTStatusEffectDurationNotify = {
+    EffectInstanceId: number;
+    TargetId: bigint;
+    ExpirationTick: bigint;
+};
+declare function read$9(buf: Buffer): PKTStatusEffectDurationNotify;
+declare const name$9 = "PKTStatusEffectDurationNotify";
+declare const opcode$9 = 17951;
 
 type PKTStatusEffectSyncDataNotify = {
     Value: number;
@@ -740,18 +749,18 @@ type PKTStatusEffectSyncDataNotify = {
     EffectInstanceId: number;
     CharacterId: bigint;
 };
-declare function read$5(buf: Buffer): PKTStatusEffectSyncDataNotify;
-declare const name$5 = "PKTStatusEffectSyncDataNotify";
-declare const opcode$5 = 30620;
+declare function read$8(buf: Buffer): PKTStatusEffectSyncDataNotify;
+declare const name$8 = "PKTStatusEffectSyncDataNotify";
+declare const opcode$8 = 30620;
 
 type PKTTriggerBossBattleStatus = {
     Step: number;
     TriggerId: number;
     Unk2_m: boolean;
 };
-declare function read$4(buf: Buffer): PKTTriggerBossBattleStatus;
-declare const name$4 = "PKTTriggerBossBattleStatus";
-declare const opcode$4 = 23146;
+declare function read$7(buf: Buffer): PKTTriggerBossBattleStatus;
+declare const name$7 = "PKTTriggerBossBattleStatus";
+declare const opcode$7 = 23146;
 
 type PKTTriggerFinishNotify = {
     TriggerId: number;
@@ -759,9 +768,9 @@ type PKTTriggerFinishNotify = {
     InvolvedPCs: bigint[];
     PacketResultCode: number;
 };
-declare function read$3(buf: Buffer): PKTTriggerFinishNotify;
-declare const name$3 = "PKTTriggerFinishNotify";
-declare const opcode$3 = 17709;
+declare function read$6(buf: Buffer): PKTTriggerFinishNotify;
+declare const name$6 = "PKTTriggerFinishNotify";
+declare const opcode$6 = 17709;
 
 type PKTTriggerStartNotify = {
     TriggerId: number;
@@ -769,9 +778,9 @@ type PKTTriggerStartNotify = {
     InvolvedPCs: bigint[];
     SourceId: bigint;
 };
-declare function read$2(buf: Buffer): PKTTriggerStartNotify;
-declare const name$2 = "PKTTriggerStartNotify";
-declare const opcode$2 = 43437;
+declare function read$5(buf: Buffer): PKTTriggerStartNotify;
+declare const name$5 = "PKTTriggerStartNotify";
+declare const opcode$5 = 43437;
 
 type PKTTroopMemberUpdateMinNotify = {
     CurHp: bigint;
@@ -781,9 +790,9 @@ type PKTTroopMemberUpdateMinNotify = {
     statusEffectDatas: StatusEffectData[];
     Unk0_m: number;
 };
-declare function read$1(buf: Buffer): PKTTroopMemberUpdateMinNotify;
-declare const name$1 = "PKTTroopMemberUpdateMinNotify";
-declare const opcode$1 = 23607;
+declare function read$4(buf: Buffer): PKTTroopMemberUpdateMinNotify;
+declare const name$4 = "PKTTroopMemberUpdateMinNotify";
+declare const opcode$4 = 23607;
 
 type PKTIdentityGaugeChangeNotify = {
     PlayerId: bigint;
@@ -791,8 +800,36 @@ type PKTIdentityGaugeChangeNotify = {
     IdentityGauge2: number;
     IdentityGauge3: number;
 };
-declare function read(buf: Buffer): PKTIdentityGaugeChangeNotify;
-declare const name = "PKTIdentityGaugeChangeNotify";
-declare const opcode = 45217;
+declare function read$3(buf: Buffer): PKTIdentityGaugeChangeNotify;
+declare const name$3 = "PKTIdentityGaugeChangeNotify";
+declare const opcode$3 = 45217;
 
-export { opcode$u as $, PKTRaidResult as A, PKTRemoveObject as B, PKTSkillDamageAbnormalMoveNotify as C, PKTSkillDamageNotify as D, PKTSkillStageNotify as E, PKTSkillStartNotify as F, PKTStatChangeOriginNotify as G, PKTStatusEffectAddNotify as H, PKTStatusEffectRemoveNotify as I, PKTStatusEffectSyncDataNotify as J, PKTTriggerBossBattleStatus as K, PKTTriggerFinishNotify as L, PKTTriggerStartNotify as M, PKTTroopMemberUpdateMinNotify as N, PKTIdentityGaugeChangeNotify as O, PKTAbilityChangeNotify as P, opcode$F as Q, opcode$E as R, opcode$D as S, opcode$C as T, opcode$B as U, opcode$A as V, opcode$z as W, opcode$y as X, opcode$x as Y, opcode$w as Z, opcode$v as _, PKTActiveAbilityNotify as a, name$8 as a$, opcode$t as a0, opcode$s as a1, opcode$r as a2, opcode$q as a3, opcode$p as a4, opcode$o as a5, opcode$n as a6, opcode$m as a7, opcode$l as a8, opcode$k as a9, name$z as aA, name$y as aB, name$x as aC, name$w as aD, name$v as aE, name$u as aF, name$t as aG, name$s as aH, name$r as aI, name$q as aJ, name$p as aK, name$o as aL, name$n as aM, name$m as aN, name$l as aO, name$k as aP, name$j as aQ, name$i as aR, name$h as aS, name$g as aT, name$f as aU, name$e as aV, name$d as aW, name$c as aX, name$b as aY, name$a as aZ, name$9 as a_, opcode$j as aa, opcode$i as ab, opcode$h as ac, opcode$g as ad, opcode$f as ae, opcode$e as af, opcode$d as ag, opcode$c as ah, opcode$b as ai, opcode$a as aj, opcode$9 as ak, opcode$8 as al, opcode$7 as am, opcode$6 as an, opcode$5 as ao, opcode$4 as ap, opcode$3 as aq, opcode$2 as ar, opcode$1 as as, opcode as at, name$F as au, name$E as av, name$D as aw, name$C as ax, name$B as ay, name$A as az, PKTAddonSkillFeatureChangeNotify as b, name$7 as b0, name$6 as b1, name$5 as b2, name$4 as b3, name$3 as b4, name$2 as b5, name$1 as b6, name as b7, read$F as b8, read$E as b9, read$d as bA, read$c as bB, read$b as bC, read$a as bD, read$9 as bE, read$8 as bF, read$7 as bG, read$6 as bH, read$5 as bI, read$4 as bJ, read$3 as bK, read$2 as bL, read$1 as bM, read as bN, read$D as ba, read$C as bb, read$B as bc, read$A as bd, read$z as be, read$y as bf, read$x as bg, read$w as bh, read$v as bi, read$u as bj, read$t as bk, read$s as bl, read$r as bm, read$q as bn, read$p as bo, read$o as bp, read$n as bq, read$m as br, read$l as bs, read$k as bt, read$j as bu, read$i as bv, read$h as bw, read$g as bx, read$f as by, read$e as bz, PKTAuthTokenResult as c, PKTBlockSkillStateNotify as d, PKTCounterAttackNotify as e, PKTDeathNotify as f, PKTInitAbility as g, PKTInitEnv as h, PKTInitPC as i, PKTInitLocal as j, PKTMigrationExecute as k, PKTNewNpc as l, PKTNewNpcSummon as m, PKTNewPC as n, PKTNewProjectile as o, PKTParalyzationStateNotify as p, PKTPartyInfo as q, PKTPartyLeaveResult as r, PKTPartyPassiveStatusEffectAddNotify as s, PKTPartyPassiveStatusEffectRemoveNotify as t, PKTPartyStatusEffectAddNotify as u, PKTPartyStatusEffectRemoveNotify as v, PKTPartyStatusEffectResultNotify as w, PKTPassiveStatusEffectAddNotify as x, PKTPassiveStatusEffectRemoveNotify as y, PKTRaidBossKillNotify as z };
+type PKTZoneObjectUnpublishNotify = {
+    ObjectId: bigint;
+};
+declare function read$2(buf: Buffer): PKTZoneObjectUnpublishNotify;
+declare const name$2 = "PKTZoneObjectUnpublishNotify";
+declare const opcode$2 = 44834;
+
+type ZoneStatusEffectData = {
+    Target: number;
+    StackCount: number;
+    InstanceId: bigint;
+    Id: number;
+};
+
+type PKTZoneStatusEffectAddNotify = {
+    zoneStatusEffectDataList: ZoneStatusEffectData[];
+};
+declare function read$1(buf: Buffer): PKTZoneStatusEffectAddNotify;
+declare const name$1 = "PKTZoneStatusEffectAddNotify";
+declare const opcode$1 = 14474;
+
+type PKTZoneStatusEffectRemoveNotify = {
+    StatusEffectId: number;
+};
+declare function read(buf: Buffer): PKTZoneStatusEffectRemoveNotify;
+declare const name = "PKTZoneStatusEffectRemoveNotify";
+declare const opcode = 56137;
+
+export { opcode$C as $, PKTRaidResult as A, PKTRemoveObject as B, PKTSkillDamageAbnormalMoveNotify as C, PKTSkillDamageNotify as D, PKTSkillStageNotify as E, PKTSkillStartNotify as F, PKTStatChangeOriginNotify as G, PKTStatusEffectAddNotify as H, PKTStatusEffectRemoveNotify as I, PKTStatusEffectDurationNotify as J, PKTStatusEffectSyncDataNotify as K, PKTTriggerBossBattleStatus as L, PKTTriggerFinishNotify as M, PKTTriggerStartNotify as N, PKTTroopMemberUpdateMinNotify as O, PKTAbilityChangeNotify as P, PKTIdentityGaugeChangeNotify as Q, PKTZoneObjectUnpublishNotify as R, PKTZoneStatusEffectAddNotify as S, PKTZoneStatusEffectRemoveNotify as T, opcode$J as U, opcode$I as V, opcode$H as W, opcode$G as X, opcode$F as Y, opcode$E as Z, opcode$D as _, PKTActiveAbilityNotify as a, name$k as a$, opcode$B as a0, opcode$A as a1, opcode$z as a2, opcode$y as a3, opcode$x as a4, opcode$w as a5, opcode$v as a6, opcode$u as a7, opcode$t as a8, opcode$s as a9, opcode$1 as aA, opcode as aB, name$J as aC, name$I as aD, name$H as aE, name$G as aF, name$F as aG, name$E as aH, name$D as aI, name$C as aJ, name$B as aK, name$A as aL, name$z as aM, name$y as aN, name$x as aO, name$w as aP, name$v as aQ, name$u as aR, name$t as aS, name$s as aT, name$r as aU, name$q as aV, name$p as aW, name$o as aX, name$n as aY, name$m as aZ, name$l as a_, opcode$r as aa, opcode$q as ab, opcode$p as ac, opcode$o as ad, opcode$n as ae, opcode$m as af, opcode$l as ag, opcode$k as ah, opcode$j as ai, opcode$i as aj, opcode$h as ak, opcode$g as al, opcode$f as am, opcode$e as an, opcode$d as ao, opcode$c as ap, opcode$b as aq, opcode$a as ar, opcode$9 as as, opcode$8 as at, opcode$7 as au, opcode$6 as av, opcode$5 as aw, opcode$4 as ax, opcode$3 as ay, opcode$2 as az, PKTAddonSkillFeatureChangeNotify as b, read$2 as b$, name$j as b0, name$i as b1, name$h as b2, name$g as b3, name$f as b4, name$e as b5, name$d as b6, name$c as b7, name$b as b8, name$a as b9, read$t as bA, read$s as bB, read$r as bC, read$q as bD, read$p as bE, read$o as bF, read$n as bG, read$m as bH, read$l as bI, read$k as bJ, read$j as bK, read$i as bL, read$h as bM, read$g as bN, read$f as bO, read$e as bP, read$d as bQ, read$c as bR, read$b as bS, read$a as bT, read$9 as bU, read$8 as bV, read$7 as bW, read$6 as bX, read$5 as bY, read$4 as bZ, read$3 as b_, name$9 as ba, name$8 as bb, name$7 as bc, name$6 as bd, name$5 as be, name$4 as bf, name$3 as bg, name$2 as bh, name$1 as bi, name as bj, read$J as bk, read$I as bl, read$H as bm, read$G as bn, read$F as bo, read$E as bp, read$D as bq, read$C as br, read$B as bs, read$A as bt, read$z as bu, read$y as bv, read$x as bw, read$w as bx, read$v as by, read$u as bz, PKTAuthTokenResult as c, read$1 as c0, read as c1, PKTBlockSkillStateNotify as d, PKTCounterAttackNotify as e, PKTDeathNotify as f, PKTInitAbility as g, PKTInitEnv as h, PKTInitPC as i, PKTInitLocal as j, PKTMigrationExecute as k, PKTNewNpc as l, PKTNewNpcSummon as m, PKTNewPC as n, PKTNewProjectile as o, PKTParalyzationStateNotify as p, PKTPartyInfo as q, PKTPartyLeaveResult as r, PKTPartyPassiveStatusEffectAddNotify as s, PKTPartyPassiveStatusEffectRemoveNotify as t, PKTPartyStatusEffectAddNotify as u, PKTPartyStatusEffectRemoveNotify as v, PKTPartyStatusEffectResultNotify as w, PKTPassiveStatusEffectAddNotify as x, PKTPassiveStatusEffectRemoveNotify as y, PKTRaidBossKillNotify as z };

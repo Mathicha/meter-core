@@ -1,42 +1,19 @@
-"use strict";
-var __create = Object.create;
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+'use strict';
+
+var lz4Napi = require('lz4-napi');
+var oodle = require('oodle');
+var snappyjs = require('snappyjs');
+
+function _interopDefault (e) { return e && e.__esModule ? e : { default: e }; }
+
+var oodle__default = /*#__PURE__*/_interopDefault(oodle);
 
 // src/decompressor.ts
-var decompressor_exports = {};
-__export(decompressor_exports, {
-  Decompressor: () => Decompressor
-});
-module.exports = __toCommonJS(decompressor_exports);
-var import_lz4_napi = require("lz4-napi");
-var import_oodle = __toESM(require("oodle"));
-var import_snappyjs = require("snappyjs");
 var Decompressor = class {
   oodle;
   xorTable;
   constructor(oodle_state, xorTable) {
-    this.oodle = new import_oodle.default.Oodle(oodle_state);
+    this.oodle = new oodle__default.default.Oodle(oodle_state);
     if (xorTable.length != 256)
       throw new Error("Invalid xorTable length");
     this.xorTable = xorTable;
@@ -51,11 +28,11 @@ var Decompressor = class {
         break;
       }
       case 1: {
-        out = (0, import_lz4_napi.uncompressSync)(data);
+        out = lz4Napi.uncompressSync(data);
         break;
       }
       case 2: {
-        out = (0, import_snappyjs.uncompress)(data);
+        out = snappyjs.uncompress(data);
         break;
       }
       case 3: {
@@ -76,7 +53,5 @@ var Decompressor = class {
       data[i] ^= this.xorTable[seed++ % 256];
   }
 };
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  Decompressor
-});
+
+exports.Decompressor = Decompressor;

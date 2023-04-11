@@ -1,49 +1,20 @@
-"use strict";
-var __create = Object.create;
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+'use strict';
+
+var cap = require('cap');
+var net = require('net');
+var tinyTypedEmitter = require('tiny-typed-emitter');
+var stream = require('stream');
+var rawSocketSniffer = require('raw-socket-sniffer');
+var os = require('os');
+var child_process = require('child_process');
+
+function _interopDefault (e) { return e && e.__esModule ? e : { default: e }; }
+
+var cap__default = /*#__PURE__*/_interopDefault(cap);
 
 // src/pkt-capture.ts
-var pkt_capture_exports = {};
-__export(pkt_capture_exports, {
-  PktCaptureAll: () => PktCaptureAll,
-  PktCaptureMode: () => PktCaptureMode,
-  adminRelauncher: () => adminRelauncher,
-  deviceList: () => deviceList,
-  findDevice: () => findDevice
-});
-module.exports = __toCommonJS(pkt_capture_exports);
-var import_cap = __toESM(require("cap"));
-var import_net = require("net");
-var import_tiny_typed_emitter = require("tiny-typed-emitter");
-
-// src/tcp_tracker.ts
-var import_stream2 = require("stream");
-
-// src/ip_tracker.ts
-var import_stream = require("stream");
 var MAX_ID = 65536;
-var IPTracker = class extends import_stream.EventEmitter {
+var IPTracker = class extends stream.EventEmitter {
   next_id = -1;
   stored = {};
   track(packet, ip, tcp) {
@@ -133,14 +104,14 @@ var PacketBuffer = class {
 };
 
 // src/tcp_tracker.ts
-var TCPTracker = class extends import_stream2.EventEmitter {
+var TCPTracker = class extends stream.EventEmitter {
   sessions;
   listen_options;
   constructor(listen_options) {
     super();
     this.sessions = {};
     this.listen_options = listen_options;
-    import_stream2.EventEmitter.call(this);
+    stream.EventEmitter.call(this);
   }
   track_packet(buffer, ip, tcp) {
     let src = ip.info.srcaddr + ":" + tcp.info.srcport;
@@ -172,13 +143,15 @@ var TCPTracker = class extends import_stream2.EventEmitter {
     }
   }
 };
-var TCPSession = class extends import_stream2.EventEmitter {
+var TCPSession = class extends stream.EventEmitter {
   state;
   src;
   dst;
   send_seqno;
+  // Current seq number flushed
   send_buffers;
   recv_seqno;
+  // Current seq number flushed
   recv_buffers;
   listen_options;
   is_ignored;
@@ -203,7 +176,7 @@ var TCPSession = class extends import_stream2.EventEmitter {
     this.recv_ip_tracker.on("segment", this.handle_recv_segment.bind(this));
     this.skip_socks5 = 0;
     this.in_handshake = true;
-    import_stream2.EventEmitter.call(this);
+    stream.EventEmitter.call(this);
   }
   track(buffer, ip, tcp) {
     let src = ip.info.srcaddr + ":" + tcp.info.srcport;
@@ -277,7 +250,6 @@ var TCPSession = class extends import_stream2.EventEmitter {
       while (pkt = this.packetBuffer.read()) {
         this.emit("payload_recv", pkt);
       }
-    } else if (direction === "send") {
     }
   }
   static get_flush(buffers, seqno, ackno) {
@@ -410,14 +382,9 @@ function isDeviceIp(ip, listen_options) {
     return false;
   return (testIp & mask) === (listen_ip & mask);
 }
-
-// src/pkt-capture.ts
-var import_raw_socket_sniffer = require("raw-socket-sniffer");
-var import_os = require("os");
-var import_child_process = require("child_process");
-var { findDevice, deviceList } = import_cap.default.Cap;
-var { Ethernet, PROTOCOL, IPV4, TCP } = import_cap.default.decoders;
-var PktCapture = class extends import_tiny_typed_emitter.TypedEmitter {
+var { findDevice, deviceList } = cap__default.default.Cap;
+var { Ethernet, PROTOCOL, IPV4, TCP } = cap__default.default.decoders;
+var PktCapture = class extends tinyTypedEmitter.TypedEmitter {
   tcpTracker;
   device;
   port;
@@ -451,7 +418,7 @@ var PcapCapture = class extends PktCapture {
   #buffer;
   constructor(device, listen_options) {
     super(device, listen_options);
-    this.c = new import_cap.default.Cap();
+    this.c = new cap__default.default.Cap();
     this.#buffer = Buffer.alloc(65535);
   }
   listen() {
@@ -482,7 +449,7 @@ var RawSocketCapture = class extends PktCapture {
   rs;
   constructor(ip, listen_options) {
     super(ip, listen_options);
-    this.rs = new import_raw_socket_sniffer.RawSocket(ip, listen_options.port);
+    this.rs = new rawSocketSniffer.RawSocket(ip, listen_options.port);
   }
   listen() {
     this.rs.on("data", this.dispatchPacket.bind(this));
@@ -496,7 +463,7 @@ var PktCaptureMode = /* @__PURE__ */ ((PktCaptureMode2) => {
   PktCaptureMode2[PktCaptureMode2["MODE_RAW_SOCKET"] = 1] = "MODE_RAW_SOCKET";
   return PktCaptureMode2;
 })(PktCaptureMode || {});
-var PktCaptureAll = class extends import_tiny_typed_emitter.TypedEmitter {
+var PktCaptureAll = class extends tinyTypedEmitter.TypedEmitter {
   captures;
   constructor(mode, port = 6040) {
     super();
@@ -513,7 +480,7 @@ var PktCaptureAll = class extends import_tiny_typed_emitter.TypedEmitter {
     if (mode === 0 /* MODE_PCAP */) {
       for (const device of deviceList()) {
         for (const address of device.addresses) {
-          if (address.addr && address.netmask && (0, import_net.isIPv4)(address.addr)) {
+          if (address.addr && address.netmask && net.isIPv4(address.addr)) {
             try {
               const pcapc = new PcapCapture(device.name, {
                 ip: address.addr,
@@ -530,9 +497,9 @@ var PktCaptureAll = class extends import_tiny_typed_emitter.TypedEmitter {
         }
       }
     } else if (mode === 1 /* MODE_RAW_SOCKET */) {
-      for (const addresses of Object.values((0, import_os.networkInterfaces)())) {
+      for (const addresses of Object.values(os.networkInterfaces())) {
         for (const device of addresses ?? []) {
-          if ((0, import_net.isIPv4)(device.address) && device.family === "IPv4" && device.internal === false && !this.captures.has(device.address)) {
+          if (net.isIPv4(device.address) && device.family === "IPv4" && device.internal === false && !this.captures.has(device.address)) {
             try {
               const rsc = new RawSocketCapture(device.address, {
                 ip: device.address,
@@ -548,8 +515,7 @@ var PktCaptureAll = class extends import_tiny_typed_emitter.TypedEmitter {
           }
         }
       }
-    } else {
-    }
+    } else ;
   }
   close() {
     for (const cap2 of this.captures.values())
@@ -558,7 +524,7 @@ var PktCaptureAll = class extends import_tiny_typed_emitter.TypedEmitter {
 };
 function updateFirewall() {
   const command = `netsh advfirewall firewall delete rule name="lost-ark-dev" & netsh advfirewall firewall add rule name="lost-ark-dev" dir=in action=allow program="${process.argv[0]}"`;
-  (0, import_child_process.execSync)(command, {
+  child_process.execSync(command, {
     stdio: "inherit"
   });
 }
@@ -570,7 +536,7 @@ function getArgList(args) {
 }
 function isAdmin() {
   try {
-    (0, import_child_process.execSync)(`fsutil dirty query ${process.env["systemdrive"] ?? "c:"}`);
+    child_process.execSync(`fsutil dirty query ${process.env["systemdrive"] ?? "c:"}`);
   } catch {
     return false;
   }
@@ -585,7 +551,7 @@ function adminRelauncher(mode) {
     return true;
   const command = `cmd /c "powershell -Command Start-Process -FilePath '${process.argv[0]}' -Verb RunAs -ArgumentList ${getArgList(process.argv.splice(1))}"`;
   try {
-    (0, import_child_process.execSync)(command, {
+    child_process.execSync(command, {
       stdio: "inherit"
     });
   } catch (e) {
@@ -594,11 +560,9 @@ function adminRelauncher(mode) {
   }
   process.exit(0);
 }
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  PktCaptureAll,
-  PktCaptureMode,
-  adminRelauncher,
-  deviceList,
-  findDevice
-});
+
+exports.PktCaptureAll = PktCaptureAll;
+exports.PktCaptureMode = PktCaptureMode;
+exports.adminRelauncher = adminRelauncher;
+exports.deviceList = deviceList;
+exports.findDevice = findDevice;

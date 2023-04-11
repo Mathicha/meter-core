@@ -1,31 +1,10 @@
-"use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+'use strict';
+
+var stream = require('stream');
 
 // src/ip_tracker.ts
-var ip_tracker_exports = {};
-__export(ip_tracker_exports, {
-  IPTracker: () => IPTracker
-});
-module.exports = __toCommonJS(ip_tracker_exports);
-var import_stream = require("stream");
 var MAX_ID = 65536;
-var IPTracker = class extends import_stream.EventEmitter {
+var IPTracker = class extends stream.EventEmitter {
   next_id = -1;
   stored = {};
   track(packet, ip, tcp) {
@@ -57,7 +36,5 @@ var IPTracker = class extends import_stream.EventEmitter {
     this.next_id = (current_id + 1) % MAX_ID;
   }
 };
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  IPTracker
-});
+
+exports.IPTracker = IPTracker;

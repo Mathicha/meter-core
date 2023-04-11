@@ -1,37 +1,6 @@
-"use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+'use strict';
 
 // src/packets/generated/enums.ts
-var enums_exports = {};
-__export(enums_exports, {
-  blockskilltype: () => blockskilltype,
-  buffshowprioritycategory: () => buffshowprioritycategory,
-  hitflag: () => hitflag,
-  hitoption: () => hitoption,
-  itemcategory: () => itemcategory,
-  npcgrade: () => npcgrade,
-  npctype: () => npctype,
-  stattype: () => stattype,
-  statuseffectcategory: () => statuseffectcategory,
-  triggersignaltype: () => triggersignaltype
-});
-module.exports = __toCommonJS(enums_exports);
 var triggersignaltype = /* @__PURE__ */ ((triggersignaltype2) => {
   triggersignaltype2[triggersignaltype2["none"] = 0] = "none";
   triggersignaltype2[triggersignaltype2["out"] = 1] = "out";
@@ -704,16 +673,23 @@ var statuseffectcategory = /* @__PURE__ */ ((statuseffectcategory2) => {
   statuseffectcategory2[statuseffectcategory2["debuff"] = 1] = "debuff";
   return statuseffectcategory2;
 })(statuseffectcategory || {});
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  blockskilltype,
-  buffshowprioritycategory,
-  hitflag,
-  hitoption,
-  itemcategory,
-  npcgrade,
-  npctype,
-  stattype,
-  statuseffectcategory,
-  triggersignaltype
-});
+var zonebufftarget = /* @__PURE__ */ ((zonebufftarget2) => {
+  zonebufftarget2[zonebufftarget2["none"] = 0] = "none";
+  zonebufftarget2[zonebufftarget2["pc"] = 1] = "pc";
+  zonebufftarget2[zonebufftarget2["monster"] = 2] = "monster";
+  zonebufftarget2[zonebufftarget2["npc"] = 3] = "npc";
+  zonebufftarget2[zonebufftarget2["all"] = 4] = "all";
+  return zonebufftarget2;
+})(zonebufftarget || {});
+
+exports.blockskilltype = blockskilltype;
+exports.buffshowprioritycategory = buffshowprioritycategory;
+exports.hitflag = hitflag;
+exports.hitoption = hitoption;
+exports.itemcategory = itemcategory;
+exports.npcgrade = npcgrade;
+exports.npctype = npctype;
+exports.stattype = stattype;
+exports.statuseffectcategory = statuseffectcategory;
+exports.triggersignaltype = triggersignaltype;
+exports.zonebufftarget = zonebufftarget;

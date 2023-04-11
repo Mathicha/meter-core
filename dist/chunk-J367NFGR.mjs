@@ -1,5 +1,6 @@
+import { EventEmitter } from 'stream';
+
 // src/ip_tracker.ts
-import { EventEmitter } from "stream";
 var MAX_ID = 65536;
 var IPTracker = class extends EventEmitter {
   next_id = -1;
@@ -34,6 +35,4 @@ var IPTracker = class extends EventEmitter {
   }
 };
 
-export {
-  IPTracker
-};
+export { IPTracker };

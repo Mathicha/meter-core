@@ -1,6 +1,4 @@
-import {
-  __publicField
-} from "./chunk-NHABU752.mjs";
+import { __publicField } from './chunk-NHABU752.mjs';
 
 // src/pcidmapper.ts
 var _PCIdMapper = class {
@@ -34,6 +32,4 @@ var _PCIdMapper = class {
 var PCIdMapper = _PCIdMapper;
 __publicField(PCIdMapper, "instance");
 
-export {
-  PCIdMapper
-};
+export { PCIdMapper };

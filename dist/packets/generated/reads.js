@@ -1,73 +1,10 @@
-"use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-
-// src/packets/generated/reads.ts
-var reads_exports = {};
-__export(reads_exports, {
-  PKTAbilityChangeNotify: () => read2,
-  PKTActiveAbilityNotify: () => read4,
-  PKTAddonSkillFeatureChangeNotify: () => read5,
-  PKTAuthTokenResult: () => read6,
-  PKTBlockSkillStateNotify: () => read7,
-  PKTCounterAttackNotify: () => read8,
-  PKTDeathNotify: () => read9,
-  PKTIdentityGaugeChangeNotify: () => read65,
-  PKTInitAbility: () => read10,
-  PKTInitEnv: () => read12,
-  PKTInitLocal: () => read18,
-  PKTInitPC: () => read16,
-  PKTMigrationExecute: () => read19,
-  PKTNewNpc: () => read25,
-  PKTNewNpcSummon: () => read26,
-  PKTNewPC: () => read29,
-  PKTNewProjectile: () => read33,
-  PKTParalyzationStateNotify: () => read34,
-  PKTPartyInfo: () => read36,
-  PKTPartyLeaveResult: () => read37,
-  PKTPartyPassiveStatusEffectAddNotify: () => read38,
-  PKTPartyPassiveStatusEffectRemoveNotify: () => read39,
-  PKTPartyStatusEffectAddNotify: () => read40,
-  PKTPartyStatusEffectRemoveNotify: () => read41,
-  PKTPartyStatusEffectResultNotify: () => read42,
-  PKTPassiveStatusEffectAddNotify: () => read43,
-  PKTPassiveStatusEffectRemoveNotify: () => read44,
-  PKTRaidBossKillNotify: () => read45,
-  PKTRaidResult: () => read46,
-  PKTRemoveObject: () => read48,
-  PKTSkillDamageAbnormalMoveNotify: () => read52,
-  PKTSkillDamageNotify: () => read53,
-  PKTSkillStageNotify: () => read54,
-  PKTSkillStartNotify: () => read56,
-  PKTStatChangeOriginNotify: () => read57,
-  PKTStatusEffectAddNotify: () => read58,
-  PKTStatusEffectRemoveNotify: () => read59,
-  PKTStatusEffectSyncDataNotify: () => read60,
-  PKTTriggerBossBattleStatus: () => read61,
-  PKTTriggerFinishNotify: () => read62,
-  PKTTriggerStartNotify: () => read63,
-  PKTTroopMemberUpdateMinNotify: () => read64
-});
-module.exports = __toCommonJS(reads_exports);
+'use strict';
 
 // src/packets/stream.ts
 var Read = class {
+  /** Buffer */
   b;
+  /** Offset */
   o;
   constructor(buf) {
     this.b = buf;
@@ -273,7 +210,9 @@ function isValidDate(year, month, day) {
   } else {
     year += 1900;
   }
-  return day > 0 && month <= 12 && (day <= daysInMonths[month] || day == 29 && month == 2 && IsLeapYear(year));
+  return day > 0 && /* 
+  month > 0 &&*/
+  month <= 12 && (day <= daysInMonths[month] || day == 29 && month == 2 && IsLeapYear(year));
 }
 function bigintToDate(value) {
   let LODWORD = Number(value & 0xffffffffn);
@@ -281,16 +220,14 @@ function bigintToDate(value) {
   let year = LODWORD & 4095;
   let month = (LODWORD & 65535) >> 12;
   let day = LODWORD >> 16 & 31;
-  if (isValidDate(year, month, day)) {
-  } else {
+  if (isValidDate(year, month, day)) ; else {
     year = month = day = 0;
   }
   let h = LODWORD >> 21 & 31;
   let m = LODWORD >> 26 & 63;
   let s = HIDWORD & 63;
   let ms = HIDWORD >> 6 & 16383;
-  if (h < 24 && m < 60 && s < 60 && ms < 1e3) {
-  } else {
+  if (h < 24 && m < 60 && s < 60 && ms < 1e3) ; else {
     h = 24;
     m = s = ms = 0;
   }
@@ -351,8 +288,8 @@ function read13(reader) {
 // src/packets/generated/structures/StatusEffectData.ts
 function read14(reader) {
   const data = {};
-  data.lostArkDateTime = read11(reader);
-  data.InstanceId = reader.u64();
+  data.OccurTime = read11(reader);
+  data.EndTick = reader.u64();
   data.Unk2 = reader.u8();
   data.SourceId = reader.u64();
   data.struct_418 = reader.bytes(reader.u16(), 8, 7);
@@ -360,7 +297,7 @@ function read14(reader) {
     data.Unk5_0 = reader.u64();
   if (reader.bool())
     data.Value = reader.bytes(16);
-  data.Unk7 = reader.u32();
+  data.TotalTime = reader.u32();
   data.StatusEffectId = reader.u32();
   data.EffectInstanceId = reader.u32();
   data.SkillLevel = reader.u8();
@@ -791,12 +728,12 @@ function read32(reader) {
   data.Unk5 = reader.u32();
   data.Unk6 = reader.u16();
   data.ProjectileId = reader.u64();
-  data.SkillId = reader.u32();
-  data.Unk9 = reader.u64();
+  data.SkillEffect = reader.u32();
+  data.TargetObjectId = reader.u64();
   if (reader.bool())
     data.Unk10_0 = reader.u32();
-  data.Unk11 = reader.u32();
-  data.SkillEffect = reader.u32();
+  data.SkillId = reader.u32();
+  data.ChainSkillEffect = reader.u32();
   if (reader.bool())
     data.Unk13_0 = reader.u64();
   data.Unk14 = reader.u16();
@@ -1189,8 +1126,20 @@ function read59(buf) {
   return data;
 }
 
-// src/packets/generated/definitions/PKTStatusEffectSyncDataNotify.ts
+// src/packets/generated/definitions/PKTStatusEffectDurationNotify.ts
 function read60(buf) {
+  const reader = new Read(buf);
+  const data = {};
+  reader.skip(2);
+  data.EffectInstanceId = reader.u32();
+  reader.skip(1);
+  data.TargetId = reader.u64();
+  data.ExpirationTick = reader.u64();
+  return data;
+}
+
+// src/packets/generated/definitions/PKTStatusEffectSyncDataNotify.ts
+function read61(buf) {
   const reader = new Read(buf);
   const data = {};
   data.Value = reader.u32();
@@ -1203,7 +1152,7 @@ function read60(buf) {
 }
 
 // src/packets/generated/definitions/PKTTriggerBossBattleStatus.ts
-function read61(buf) {
+function read62(buf) {
   const reader = new Read(buf);
   const data = {};
   data.Step = reader.u32();
@@ -1215,7 +1164,7 @@ function read61(buf) {
 }
 
 // src/packets/generated/definitions/PKTTriggerFinishNotify.ts
-function read62(buf) {
+function read63(buf) {
   const reader = new Read(buf);
   const data = {};
   data.TriggerId = reader.u32();
@@ -1226,7 +1175,7 @@ function read62(buf) {
 }
 
 // src/packets/generated/definitions/PKTTriggerStartNotify.ts
-function read63(buf) {
+function read64(buf) {
   const reader = new Read(buf);
   const data = {};
   data.TriggerId = reader.u32();
@@ -1237,7 +1186,7 @@ function read63(buf) {
 }
 
 // src/packets/generated/definitions/PKTTroopMemberUpdateMinNotify.ts
-function read64(buf) {
+function read65(buf) {
   const reader = new Read(buf);
   const data = {};
   data.CurHp = read13(reader);
@@ -1250,7 +1199,7 @@ function read64(buf) {
 }
 
 // src/packets/generated/definitions/PKTIdentityGaugeChangeNotify.ts
-function read65(buf) {
+function read66(buf) {
   const reader = new Read(buf);
   const data = {};
   reader.skip(1);
@@ -1260,48 +1209,86 @@ function read65(buf) {
   data.IdentityGauge3 = reader.i32();
   return data;
 }
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  PKTAbilityChangeNotify,
-  PKTActiveAbilityNotify,
-  PKTAddonSkillFeatureChangeNotify,
-  PKTAuthTokenResult,
-  PKTBlockSkillStateNotify,
-  PKTCounterAttackNotify,
-  PKTDeathNotify,
-  PKTIdentityGaugeChangeNotify,
-  PKTInitAbility,
-  PKTInitEnv,
-  PKTInitLocal,
-  PKTInitPC,
-  PKTMigrationExecute,
-  PKTNewNpc,
-  PKTNewNpcSummon,
-  PKTNewPC,
-  PKTNewProjectile,
-  PKTParalyzationStateNotify,
-  PKTPartyInfo,
-  PKTPartyLeaveResult,
-  PKTPartyPassiveStatusEffectAddNotify,
-  PKTPartyPassiveStatusEffectRemoveNotify,
-  PKTPartyStatusEffectAddNotify,
-  PKTPartyStatusEffectRemoveNotify,
-  PKTPartyStatusEffectResultNotify,
-  PKTPassiveStatusEffectAddNotify,
-  PKTPassiveStatusEffectRemoveNotify,
-  PKTRaidBossKillNotify,
-  PKTRaidResult,
-  PKTRemoveObject,
-  PKTSkillDamageAbnormalMoveNotify,
-  PKTSkillDamageNotify,
-  PKTSkillStageNotify,
-  PKTSkillStartNotify,
-  PKTStatChangeOriginNotify,
-  PKTStatusEffectAddNotify,
-  PKTStatusEffectRemoveNotify,
-  PKTStatusEffectSyncDataNotify,
-  PKTTriggerBossBattleStatus,
-  PKTTriggerFinishNotify,
-  PKTTriggerStartNotify,
-  PKTTroopMemberUpdateMinNotify
-});
+
+// src/packets/generated/definitions/PKTZoneObjectUnpublishNotify.ts
+function read67(buf) {
+  const reader = new Read(buf);
+  const data = {};
+  reader.skip(2);
+  data.ObjectId = reader.u64();
+  return data;
+}
+
+// src/packets/generated/structures/ZoneStatusEffectData.ts
+function read68(reader) {
+  const data = {};
+  data.Target = reader.u8();
+  data.StackCount = reader.u8();
+  data.InstanceId = reader.u64();
+  data.Id = reader.u32();
+  return data;
+}
+
+// src/packets/generated/definitions/PKTZoneStatusEffectAddNotify.ts
+function read69(buf) {
+  const reader = new Read(buf);
+  const data = {};
+  data.zoneStatusEffectDataList = reader.array(reader.u16(), () => read68(reader), 4);
+  return data;
+}
+
+// src/packets/generated/definitions/PKTZoneStatusEffectRemoveNotify.ts
+function read70(buf) {
+  const reader = new Read(buf);
+  const data = {};
+  reader.skip(2);
+  data.StatusEffectId = reader.u32();
+  return data;
+}
+
+exports.PKTAbilityChangeNotify = read2;
+exports.PKTActiveAbilityNotify = read4;
+exports.PKTAddonSkillFeatureChangeNotify = read5;
+exports.PKTAuthTokenResult = read6;
+exports.PKTBlockSkillStateNotify = read7;
+exports.PKTCounterAttackNotify = read8;
+exports.PKTDeathNotify = read9;
+exports.PKTIdentityGaugeChangeNotify = read66;
+exports.PKTInitAbility = read10;
+exports.PKTInitEnv = read12;
+exports.PKTInitLocal = read18;
+exports.PKTInitPC = read16;
+exports.PKTMigrationExecute = read19;
+exports.PKTNewNpc = read25;
+exports.PKTNewNpcSummon = read26;
+exports.PKTNewPC = read29;
+exports.PKTNewProjectile = read33;
+exports.PKTParalyzationStateNotify = read34;
+exports.PKTPartyInfo = read36;
+exports.PKTPartyLeaveResult = read37;
+exports.PKTPartyPassiveStatusEffectAddNotify = read38;
+exports.PKTPartyPassiveStatusEffectRemoveNotify = read39;
+exports.PKTPartyStatusEffectAddNotify = read40;
+exports.PKTPartyStatusEffectRemoveNotify = read41;
+exports.PKTPartyStatusEffectResultNotify = read42;
+exports.PKTPassiveStatusEffectAddNotify = read43;
+exports.PKTPassiveStatusEffectRemoveNotify = read44;
+exports.PKTRaidBossKillNotify = read45;
+exports.PKTRaidResult = read46;
+exports.PKTRemoveObject = read48;
+exports.PKTSkillDamageAbnormalMoveNotify = read52;
+exports.PKTSkillDamageNotify = read53;
+exports.PKTSkillStageNotify = read54;
+exports.PKTSkillStartNotify = read56;
+exports.PKTStatChangeOriginNotify = read57;
+exports.PKTStatusEffectAddNotify = read58;
+exports.PKTStatusEffectDurationNotify = read60;
+exports.PKTStatusEffectRemoveNotify = read59;
+exports.PKTStatusEffectSyncDataNotify = read61;
+exports.PKTTriggerBossBattleStatus = read62;
+exports.PKTTriggerFinishNotify = read63;
+exports.PKTTriggerStartNotify = read64;
+exports.PKTTroopMemberUpdateMinNotify = read65;
+exports.PKTZoneObjectUnpublishNotify = read67;
+exports.PKTZoneStatusEffectAddNotify = read69;
+exports.PKTZoneStatusEffectRemoveNotify = read70;

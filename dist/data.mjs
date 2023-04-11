@@ -1,8 +1,6 @@
-import "./chunk-NHABU752.mjs";
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
-// src/data.ts
-import { readFileSync } from "fs";
-import { join } from "path";
 var MeterData = class {
   dbPath = "";
   modulePath;
@@ -106,6 +104,5 @@ var MeterData = class {
     this.processCombatEffectData(JSON.parse(readFileSync(join(basePath, "CombatEffect.json"), "utf-8")));
   }
 };
-export {
-  MeterData
-};
+
+export { MeterData };

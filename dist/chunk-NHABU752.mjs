@@ -5,6 +5,4 @@ var __publicField = (obj, key, value) => {
   return value;
 };
 
-export {
-  __publicField
-};
+export { __publicField };

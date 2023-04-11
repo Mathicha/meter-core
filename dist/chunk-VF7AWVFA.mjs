@@ -1,9 +1,5 @@
-import {
-  IPTracker
-} from "./chunk-J367NFGR.mjs";
-
-// src/tcp_tracker.ts
-import { EventEmitter } from "stream";
+import { IPTracker } from './chunk-J367NFGR.mjs';
+import { EventEmitter } from 'stream';
 
 // src/pkt-buffer.ts
 var PacketBuffer = class {
@@ -106,8 +102,10 @@ var TCPSession = class extends EventEmitter {
   src;
   dst;
   send_seqno;
+  // Current seq number flushed
   send_buffers;
   recv_seqno;
+  // Current seq number flushed
   recv_buffers;
   listen_options;
   is_ignored;
@@ -206,7 +204,6 @@ var TCPSession = class extends EventEmitter {
       while (pkt = this.packetBuffer.read()) {
         this.emit("payload_recv", pkt);
       }
-    } else if (direction === "send") {
     }
   }
   static get_flush(buffers, seqno, ackno) {
@@ -340,7 +337,4 @@ function isDeviceIp(ip, listen_options) {
   return (testIp & mask) === (listen_ip & mask);
 }
 
-export {
-  TCPTracker,
-  TCPSession
-};
+export { TCPSession, TCPTracker };

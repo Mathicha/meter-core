@@ -1,35 +1,10 @@
-"use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+'use strict';
+
+var stream = require('stream');
 
 // src/tcp_tracker.ts
-var tcp_tracker_exports = {};
-__export(tcp_tracker_exports, {
-  TCPSession: () => TCPSession,
-  TCPTracker: () => TCPTracker
-});
-module.exports = __toCommonJS(tcp_tracker_exports);
-var import_stream2 = require("stream");
-
-// src/ip_tracker.ts
-var import_stream = require("stream");
 var MAX_ID = 65536;
-var IPTracker = class extends import_stream.EventEmitter {
+var IPTracker = class extends stream.EventEmitter {
   next_id = -1;
   stored = {};
   track(packet, ip, tcp) {
@@ -119,14 +94,14 @@ var PacketBuffer = class {
 };
 
 // src/tcp_tracker.ts
-var TCPTracker = class extends import_stream2.EventEmitter {
+var TCPTracker = class extends stream.EventEmitter {
   sessions;
   listen_options;
   constructor(listen_options) {
     super();
     this.sessions = {};
     this.listen_options = listen_options;
-    import_stream2.EventEmitter.call(this);
+    stream.EventEmitter.call(this);
   }
   track_packet(buffer, ip, tcp) {
     let src = ip.info.srcaddr + ":" + tcp.info.srcport;
@@ -158,13 +133,15 @@ var TCPTracker = class extends import_stream2.EventEmitter {
     }
   }
 };
-var TCPSession = class extends import_stream2.EventEmitter {
+var TCPSession = class extends stream.EventEmitter {
   state;
   src;
   dst;
   send_seqno;
+  // Current seq number flushed
   send_buffers;
   recv_seqno;
+  // Current seq number flushed
   recv_buffers;
   listen_options;
   is_ignored;
@@ -189,7 +166,7 @@ var TCPSession = class extends import_stream2.EventEmitter {
     this.recv_ip_tracker.on("segment", this.handle_recv_segment.bind(this));
     this.skip_socks5 = 0;
     this.in_handshake = true;
-    import_stream2.EventEmitter.call(this);
+    stream.EventEmitter.call(this);
   }
   track(buffer, ip, tcp) {
     let src = ip.info.srcaddr + ":" + tcp.info.srcport;
@@ -263,7 +240,6 @@ var TCPSession = class extends import_stream2.EventEmitter {
       while (pkt = this.packetBuffer.read()) {
         this.emit("payload_recv", pkt);
       }
-    } else if (direction === "send") {
     }
   }
   static get_flush(buffers, seqno, ackno) {
@@ -396,8 +372,6 @@ function isDeviceIp(ip, listen_options) {
     return false;
   return (testIp & mask) === (listen_ip & mask);
 }
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  TCPSession,
-  TCPTracker
-});
+
+exports.TCPSession = TCPSession;
+exports.TCPTracker = TCPTracker;

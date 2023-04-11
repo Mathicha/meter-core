@@ -1,9 +1,7 @@
-import "./chunk-NHABU752.mjs";
+import { uncompressSync } from 'lz4-napi';
+import oodle from 'oodle';
+import { uncompress } from 'snappyjs';
 
-// src/decompressor.ts
-import { uncompressSync as lz4UncompressSync } from "lz4-napi";
-import oodle from "oodle";
-import { uncompress as snappyUncompress } from "snappyjs";
 var Decompressor = class {
   oodle;
   xorTable;
@@ -23,11 +21,11 @@ var Decompressor = class {
         break;
       }
       case 1: {
-        out = lz4UncompressSync(data);
+        out = uncompressSync(data);
         break;
       }
       case 2: {
-        out = snappyUncompress(data);
+        out = uncompress(data);
         break;
       }
       case 3: {
@@ -48,6 +46,5 @@ var Decompressor = class {
       data[i] ^= this.xorTable[seed++ % 256];
   }
 };
-export {
-  Decompressor
-};
+
+export { Decompressor };

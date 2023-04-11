@@ -1,32 +1,10 @@
-"use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name43 in all)
-    __defProp(target, name43, { get: all[name43], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-
-// src/packets/generated/mapping.ts
-var mapping_exports = {};
-__export(mapping_exports, {
-  mapping: () => mapping
-});
-module.exports = __toCommonJS(mapping_exports);
+'use strict';
 
 // src/packets/stream.ts
 var Read = class {
+  /** Buffer */
   b;
+  /** Offset */
   o;
   constructor(buf) {
     this.b = buf;
@@ -248,7 +226,9 @@ function isValidDate(year, month, day) {
   } else {
     year += 1900;
   }
-  return day > 0 && month <= 12 && (day <= daysInMonths[month] || day == 29 && month == 2 && IsLeapYear(year));
+  return day > 0 && /* 
+  month > 0 &&*/
+  month <= 12 && (day <= daysInMonths[month] || day == 29 && month == 2 && IsLeapYear(year));
 }
 function bigintToDate(value) {
   let LODWORD = Number(value & 0xffffffffn);
@@ -256,16 +236,14 @@ function bigintToDate(value) {
   let year = LODWORD & 4095;
   let month = (LODWORD & 65535) >> 12;
   let day = LODWORD >> 16 & 31;
-  if (isValidDate(year, month, day)) {
-  } else {
+  if (isValidDate(year, month, day)) ; else {
     year = month = day = 0;
   }
   let h = LODWORD >> 21 & 31;
   let m = LODWORD >> 26 & 63;
   let s = HIDWORD & 63;
   let ms = HIDWORD >> 6 & 16383;
-  if (h < 24 && m < 60 && s < 60 && ms < 1e3) {
-  } else {
+  if (h < 24 && m < 60 && s < 60 && ms < 1e3) ; else {
     h = 24;
     m = s = ms = 0;
   }
@@ -328,8 +306,8 @@ function read13(reader) {
 // src/packets/generated/structures/StatusEffectData.ts
 function read14(reader) {
   const data = {};
-  data.lostArkDateTime = read11(reader);
-  data.InstanceId = reader.u64();
+  data.OccurTime = read11(reader);
+  data.EndTick = reader.u64();
   data.Unk2 = reader.u8();
   data.SourceId = reader.u64();
   data.struct_418 = reader.bytes(reader.u16(), 8, 7);
@@ -337,7 +315,7 @@ function read14(reader) {
     data.Unk5_0 = reader.u64();
   if (reader.bool())
     data.Value = reader.bytes(16);
-  data.Unk7 = reader.u32();
+  data.TotalTime = reader.u32();
   data.StatusEffectId = reader.u32();
   data.EffectInstanceId = reader.u32();
   data.SkillLevel = reader.u8();
@@ -780,12 +758,12 @@ function read32(reader) {
   data.Unk5 = reader.u32();
   data.Unk6 = reader.u16();
   data.ProjectileId = reader.u64();
-  data.SkillId = reader.u32();
-  data.Unk9 = reader.u64();
+  data.SkillEffect = reader.u32();
+  data.TargetObjectId = reader.u64();
   if (reader.bool())
     data.Unk10_0 = reader.u32();
-  data.Unk11 = reader.u32();
-  data.SkillEffect = reader.u32();
+  data.SkillId = reader.u32();
+  data.ChainSkillEffect = reader.u32();
   if (reader.bool())
     data.Unk13_0 = reader.u64();
   data.Unk14 = reader.u16();
@@ -1220,8 +1198,22 @@ function read59(buf) {
 var name36 = "PKTStatusEffectRemoveNotify";
 var opcode36 = 17974;
 
-// src/packets/generated/definitions/PKTStatusEffectSyncDataNotify.ts
+// src/packets/generated/definitions/PKTStatusEffectDurationNotify.ts
 function read60(buf) {
+  const reader = new Read(buf);
+  const data = {};
+  reader.skip(2);
+  data.EffectInstanceId = reader.u32();
+  reader.skip(1);
+  data.TargetId = reader.u64();
+  data.ExpirationTick = reader.u64();
+  return data;
+}
+var name37 = "PKTStatusEffectDurationNotify";
+var opcode37 = 17951;
+
+// src/packets/generated/definitions/PKTStatusEffectSyncDataNotify.ts
+function read61(buf) {
   const reader = new Read(buf);
   const data = {};
   data.Value = reader.u32();
@@ -1232,11 +1224,11 @@ function read60(buf) {
   reader.skip(2);
   return data;
 }
-var name37 = "PKTStatusEffectSyncDataNotify";
-var opcode37 = 30620;
+var name38 = "PKTStatusEffectSyncDataNotify";
+var opcode38 = 30620;
 
 // src/packets/generated/definitions/PKTTriggerBossBattleStatus.ts
-function read61(buf) {
+function read62(buf) {
   const reader = new Read(buf);
   const data = {};
   data.Step = reader.u32();
@@ -1246,11 +1238,11 @@ function read61(buf) {
   reader.skip(1);
   return data;
 }
-var name38 = "PKTTriggerBossBattleStatus";
-var opcode38 = 23146;
+var name39 = "PKTTriggerBossBattleStatus";
+var opcode39 = 23146;
 
 // src/packets/generated/definitions/PKTTriggerFinishNotify.ts
-function read62(buf) {
+function read63(buf) {
   const reader = new Read(buf);
   const data = {};
   data.TriggerId = reader.u32();
@@ -1259,11 +1251,11 @@ function read62(buf) {
   data.PacketResultCode = reader.u32();
   return data;
 }
-var name39 = "PKTTriggerFinishNotify";
-var opcode39 = 17709;
+var name40 = "PKTTriggerFinishNotify";
+var opcode40 = 17709;
 
 // src/packets/generated/definitions/PKTTriggerStartNotify.ts
-function read63(buf) {
+function read64(buf) {
   const reader = new Read(buf);
   const data = {};
   data.TriggerId = reader.u32();
@@ -1272,11 +1264,11 @@ function read63(buf) {
   data.SourceId = reader.u64();
   return data;
 }
-var name40 = "PKTTriggerStartNotify";
-var opcode40 = 43437;
+var name41 = "PKTTriggerStartNotify";
+var opcode41 = 43437;
 
 // src/packets/generated/definitions/PKTTroopMemberUpdateMinNotify.ts
-function read64(buf) {
+function read65(buf) {
   const reader = new Read(buf);
   const data = {};
   data.CurHp = read13(reader);
@@ -1287,11 +1279,11 @@ function read64(buf) {
   data.Unk0_m = reader.u32();
   return data;
 }
-var name41 = "PKTTroopMemberUpdateMinNotify";
-var opcode41 = 23607;
+var name42 = "PKTTroopMemberUpdateMinNotify";
+var opcode42 = 23607;
 
 // src/packets/generated/definitions/PKTIdentityGaugeChangeNotify.ts
-function read65(buf) {
+function read66(buf) {
   const reader = new Read(buf);
   const data = {};
   reader.skip(1);
@@ -1301,8 +1293,50 @@ function read65(buf) {
   data.IdentityGauge3 = reader.i32();
   return data;
 }
-var name42 = "PKTIdentityGaugeChangeNotify";
-var opcode42 = 45217;
+var name43 = "PKTIdentityGaugeChangeNotify";
+var opcode43 = 45217;
+
+// src/packets/generated/definitions/PKTZoneObjectUnpublishNotify.ts
+function read67(buf) {
+  const reader = new Read(buf);
+  const data = {};
+  reader.skip(2);
+  data.ObjectId = reader.u64();
+  return data;
+}
+var name44 = "PKTZoneObjectUnpublishNotify";
+var opcode44 = 44834;
+
+// src/packets/generated/structures/ZoneStatusEffectData.ts
+function read68(reader) {
+  const data = {};
+  data.Target = reader.u8();
+  data.StackCount = reader.u8();
+  data.InstanceId = reader.u64();
+  data.Id = reader.u32();
+  return data;
+}
+
+// src/packets/generated/definitions/PKTZoneStatusEffectAddNotify.ts
+function read69(buf) {
+  const reader = new Read(buf);
+  const data = {};
+  data.zoneStatusEffectDataList = reader.array(reader.u16(), () => read68(reader), 4);
+  return data;
+}
+var name45 = "PKTZoneStatusEffectAddNotify";
+var opcode45 = 14474;
+
+// src/packets/generated/definitions/PKTZoneStatusEffectRemoveNotify.ts
+function read70(buf) {
+  const reader = new Read(buf);
+  const data = {};
+  reader.skip(2);
+  data.StatusEffectId = reader.u32();
+  return data;
+}
+var name46 = "PKTZoneStatusEffectRemoveNotify";
+var opcode46 = 56137;
 
 // src/packets/generated/mapping.ts
 var mapping = /* @__PURE__ */ new Map([
@@ -1371,9 +1405,14 @@ var mapping = /* @__PURE__ */ new Map([
   [opcode39, [name39, read62]],
   [opcode40, [name40, read63]],
   [opcode41, [name41, read64]],
-  [opcode42, [name42, read65]]
+  [opcode42, [name42, read65]],
+  [opcode43, [name43, read66]],
+  [opcode44, [name44, read67]],
+  [opcode45, [name45, read69]],
+  [
+    opcode46,
+    [name46, read70]
+  ]
 ]);
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  mapping
-});
+
+exports.mapping = mapping;

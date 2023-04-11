@@ -1,9 +1,5 @@
-import {
-  PCIdMapper
-} from "./chunk-KLBR2DOF.mjs";
-import {
-  __publicField
-} from "./chunk-NHABU752.mjs";
+import { PCIdMapper } from './chunk-KLBR2DOF.mjs';
+import { __publicField } from './chunk-NHABU752.mjs';
 
 // src/partytracker.ts
 var _PartyTracker = class {
@@ -125,6 +121,4 @@ var _PartyTracker = class {
 var PartyTracker = _PartyTracker;
 __publicField(PartyTracker, "instance");
 
-export {
-  PartyTracker
-};
+export { PartyTracker };
